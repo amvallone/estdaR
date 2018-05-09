@@ -1,0 +1,8 @@
+load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/usincome.rdata")
+ls()
+load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/mexico.rdata")
+ls()
+str(mexico)
+dim(mexico)
+load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
+ls()
