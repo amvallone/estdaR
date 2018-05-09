@@ -1,11 +1,24 @@
-
-
-# description Compute the Spatial Markov transition probability matrix
-# param x numerical matrix of n spatial unit ans t time periods
-# param W an objet of listw class.
-# param t period of time to compute the spatial lag.
-# param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
-# param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
+#' @name sp.mkv
+#' @rdname sp.mkv
+#'
+#' @title Spatial Markov transition probability matrix
+#' @description Compute the Spatial Markov transition probability matrix (Rey,2001)
+#'
+#' @param m numerical matrix of n spatial unit ans t time periods
+#' @param W an objet of listw class.
+#' @param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
+#' @param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
+#'
+#' @details for later..
+#' @return a list contaning the markov's trantiiona matrix and the markov's transition probability matrix
+#'
+#' @references Rey, S.J. (2001) “Spatial empirics for economic growth and convergence”, 34 Geographical Analysis, 33, 195-214.
+#'
+#' @examples
+#' data(usincome)
+#' sp.mkv(rpci,w)
+#'
+#' @export
 
 
 sp.mkv <- function(m,W,classes=5,fixed=TRUE){
@@ -21,7 +34,7 @@ sp.mkv <- function(m,W,classes=5,fixed=TRUE){
 		lx <- matrix(auxl,dim(lag))
 		x <- matrix(auxx,dim(m))
 	} else {
-		lx <- apply(lag,2,discret,classes=classes) 
+		lx <- apply(lag,2,discret,classes=classes)
 		x <- apply(m,2,discret,classes=classes)
 	}
 	class<-as.numeric(unique(as.factor(lx)))
@@ -39,20 +52,3 @@ sp.mkv <- function(m,W,classes=5,fixed=TRUE){
   output <- list("Probabilities" = mm.p, "Transitions" = mm)
   return(output)
  }
-
-
-#example
-usinc <- read.csv("./exampleData/us_income/usjoin.csv")
-pci <- usinc[,-1]
-pci <- pci[,-1]
-us_mean<-colMeans(pci)
-rpci <- matrix(0,48,81)
-for(i in seq_len(ncol(rpci))){rpci[,i] <- pci[,i]/us_mean[i]}
-w <- read.gal("./exampleData/us_income/states48.gal",region.id=c(0:47))
-w <- nb2listw(w)
-
-
-
-
-# Spatial Markov
-sm <- sp.mkv(rpci,w)

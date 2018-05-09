@@ -1,16 +1,65 @@
-pck<-c("Guerry","rgdal","spdep","purrr","RColorBrewer","classInt")
-lapply(pck,require,character.only=TRUE)
+#' @name moran
+#' @rdname moran
+#'
+#' @title Univariable and Bivariable Local Moran's I
+#' @description Compute the Univariable (Anselin,1995) and Bivariable (cite??) Local Moran's I
+#'
+#'
+#' @param x a ventor, matrix or data frame contening the variables and spatial units
+#' @param W a \code{listw} object
+#' @param nsim number of random permutation used to the compute the pseudo p value. By default it is NULL
+#' @param type a character indicating the local Moran's I to be compute. If it is set as "uni" the standart local Moran's I statistic is calulated. Set type as "multi" to cumpute the bivariable local Moran's I.
+#' @param nbcom number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set aas the number of spatial unit to use.
+#' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
+#' @details later...
+#' @return a data frame or a list of data frames (more explanation in Details later)
+#' @references
+#' Anselin, L. (1995). Local Indicators of Spatial Association—LISA. Geographical Analysis, 27(2), 93–115. \url{https://doi.org/10.1111/j.1538-4632.1995.tb00338.x}
+#'
+#' @examples
+#' pcc <- cbind(pc1,pc2)
+#' e4 <- moran(pc1,w1queen,nsim=999)
+#' e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)
+#'
+#' @export
 
 
-load("./exampleData/Multi.rdata")
+moran <- function(x,W,nsim=NULL,type="uni",nbcom=length(W$neighbours),...){
+  #argum check
 
-set.seed(1)
-
+  # dim check
+  if(is.null(dim(x))==TRUE){
+    out <- local.m(x,W=W,nsim=nsim,nbcom=nbcom,...)
+  } else {
+    y <- lapply(seq_len(ncol(x)), function(i) x[,i])
+    names(y)<-colnames(x)
+    switch(type,
+           uni={
+             y <- lapply(seq_len(ncol(x)), function(i) x[,i])
+             names(y)<-colnames(x)
+             out <- lapply(y,local.m,W=W,nsim=nsim,nbcom=nbcom,...)
+           },
+           multi={
+             pairs <- expand.grid(c(1:ncol(x)),c(ncol(x):1))
+             pairs <- pairs[which(pairs[,1]!=pairs[,2]),] #avoid the univariable computation.
+             out <- list()
+             name<-c()
+             for( i in seq_len(nrow(pairs))){
+               name <- c(name,paste(colnames(x)[pairs[i,1]],colnames(x)[pairs[i,2]],sep="-"))
+               m.I<-b.local.m(x[,pairs[i,1]],x[,pairs[i,2]],W=W,nsim=nsim,nbcom=nbcom,...)
+               out[[i]] <- m.I
+             }
+             names(out) <- name
+           }
+    )
+  }
+  return(out)
+}
 
 
 # Univariate local Moran
 
-local.m<-function(x,W,nsim=NULL,nbcom=length(W$neighbours)){
+local.m<-function(x,W,nsim=NULL,nbcom=length(W$neighbours),...){
   l.m <- rep(0,length(x))
   p.val <- rep(0,length(x))
   p.l.m <- rep(0,length(x))
@@ -19,11 +68,7 @@ local.m<-function(x,W,nsim=NULL,nbcom=length(W$neighbours)){
   m.wx <- wx - mean(wx)
   m.x <- x-meanx
   stdx <- sd(x)
-  quad <- rep(0,length(x))
-  quad[m.x>=0 & m.wx>=0] <- 1
-  quad[m.x<0 & m.wx<0] <- 2
-  quad[m.x>=0 & m.wx<0] <- 4
-  quad[m.x<0 & m.wx>=0] <- 3
+  quad <- quad(x,W,...)
   for (i in seq_along(x)){
     neg<-W$neighbours[[i]]
     w<-W$weights[[i]]
@@ -44,8 +89,8 @@ local.m<-function(x,W,nsim=NULL,nbcom=length(W$neighbours)){
       	m2 <- ((x[i]-meanx)/stdx)*sum(m2)
       	p[j]<-m2
     		}
-    		plot(density(p))
-    		abline(v=m1)
+    	#	plot(density(p))
+    	#	abline(v=m1)
 		above <- p>=m1
 		larger <- sum(above)
 		lower <- (nsim - larger)
@@ -56,20 +101,20 @@ local.m<-function(x,W,nsim=NULL,nbcom=length(W$neighbours)){
   if(!is.null(nsim)){
   	p.l.m <-  p.adjust(p.val,method="bonferroni",n=nbcom)
   	p.plot <- rep(1,length(p.val))
- 	p.plot[p.val>=0.01 & p.val<=0.05]<-0.05
- 	p.plot[p.val>0.001 & p.val<=0.01]<-0.01
+  	p.plot[p.val>=0.01 & p.val<=0.05]<-0.05
+ 	  p.plot[p.val>0.001 & p.val<=0.01]<-0.01
   	p.plot[p.val<=0.001]<-0.001
   	cluster <- quad*as.integer(p.plot!=1)
   	out<-cbind("local m"=l.m,"p.value"=p.val,"adj. p.value"=p.l.m, "Moran quad"=quad,"p Map"=p.plot,"Cluster Map"=cluster)
   	} else {
   		out <- cbind("local.m"=l.m,"Moran quad"=quad)
   	}
-  return(out) 
+  return(out)
 }
 
 #Multivariable local Moran
 
-b.local.m<-function(x,y,W,nsim=NULL,nbcom=length(W$neighbours)){
+b.local.m<-function(x,y,W,nsim=NULL,nbcom=length(W$neighbours),...){
   l.m <- rep(0,length(x))
   p.val <- rep(0,length(x))
   p.l.m <- rep(0,length(x))
@@ -78,15 +123,11 @@ b.local.m<-function(x,y,W,nsim=NULL,nbcom=length(W$neighbours)){
   m.wy <- wy - mean(wy)
   zx <- m.x/sd(x)
   zy <- (y-mean(y))/sd(y) #(mean(y) - y)/sd(y) in geoda
-  quad <- rep(0,length(x))
-  quad[m.x>=0 & m.wy>=0] <- 1
-  quad[m.x<0 & m.wy<0] <- 2
-  quad[m.x>=0 & m.wy<0] <- 4
-  quad[m.x<0 & m.wy>=0] <- 3
+  quad <- quad(x,y=y,W=W,...)
   for (i in seq_along(x)){
     neg<-W$neighbours[[i]]
     w<-W$weights[[i]]
-    m1 <- zx[i]*sum(w*zy[neg])    
+    m1 <- zx[i]*sum(w*zy[neg])
     l.m[i] <- m1
     if(!is.null(nsim)){
     		p<-rep(0,nsim)
@@ -102,77 +143,28 @@ b.local.m<-function(x,y,W,nsim=NULL,nbcom=length(W$neighbours)){
       		m2 <- zx[i]*sum(w*zaux[neg])
       		p[j]<-m2
     	}
-    	plot(density(p))
-    	abline(v=m1)
+    #	plot(density(p))
+    #	abline(v=m1)
   		above <- p>=m1
-		larger <- sum(above)
-		lower <- (nsim - larger)
-		final <- pmin(larger,lower)
-		p.val[i]<- (final+1)/(nsim+1)
+	  	larger <- sum(above)
+  		lower <- (nsim - larger)
+  		final <- pmin(larger,lower)
+  		p.val[i]<- (final+1)/(nsim+1)
   		}
     }
 	if(!is.null(nsim)){
 		p.l.m <-  p.adjust(p.val,method="bonferroni",n=nbcom)
-  		p.plot <- rep(1,length(p.val))
-  		p.plot[p.val>=0.01 & p.val<=0.05]<-0.05
-  		p.plot[p.val>0.001 & p.val<=0.01]<-0.01
-  		p.plot[p.val<=0.001]<-0.001
-  		cluster <- quad*as.integer(p.plot!=1)
- 			 out<-cbind("local m"=l.m,"p.value"=p.val,"adj. p.value"=p.l.m, "Moran quad"=quad,"p Map"=p.plot,"Cluster Map"=cluster)
+  	p.plot <- rep(1,length(p.val))
+  	p.plot[p.val>=0.01 & p.val<=0.05]<-0.05
+  	p.plot[p.val>0.001 & p.val<=0.01]<-0.01
+  	p.plot[p.val<=0.001]<-0.001
+  	cluster <- quad*as.integer(p.plot!=1)
+ 		out<-cbind("local m"=l.m,"p.value"=p.val,"adj. p.value"=p.l.m, "Moran quad"=quad,"p Map"=p.plot,"Cluster Map"=cluster)
 	} else {
 		out<-cbind("local m"=l.m, "Moran quad"=quad)
 	}
-  return(out) 
+  return(out)
 }
 
 
-#Global function.
 
-moran <- function(x,W,nsim=NULL,type="uni",nbcom=length(W$neighbours),...){
-	#argum check
-	
-	
-	# dim check
-	if(is.null(dim(x))==TRUE){
-		out <- local.m(x,W=W,nsim=nsim,nbcom=nbcom)
-	} else {
-		y <- lapply(seq_len(ncol(x)), function(i) x[,i])
-		names(y)<-colnames(x)
-		switch(type,
-		uni={
-			y <- lapply(seq_len(ncol(x)), function(i) x[,i])
-			names(y)<-colnames(x)
-			out <- lapply(y,local.m,W=W,nsim=nsim,nbcom=nbcom)
-		},
-		multi={
-			pairs <- expand.grid(c(1:ncol(x)),c(ncol(x):1))
-			pairs <- pairs[which(pairs[,1]!=pairs[,2]),] #avoid the univariable computation.
-			out <- list()
-			name<-c()
-			for( i in seq_len(nrow(pairs))){
-				name <- c(name,paste(colnames(x)[pairs[i,1]],colnames(x)[pairs[i,2]],sep="-"))
-				m.I<-b.local.m(x[,pairs[i,1]],x[,pairs[i,2]],W=W,nsim=nsim,nbcom=nbcom)
-				out[[i]] <- m.I
-				}
-			names(out) <- name	
-			}
-		)
-	}
-	return(out)
-	}
-
-# Examples
-
-#lm.1 <- local.m(pc1,w1queen,nsim=999)
-#lm.2 <- local.m(pc2,w1queen,nbcom=80,nsim=9999)
-#lm.suic <- local.m(data[,7],w1queen,nsim=9999)
-
-#b.lm <- b.local.m(pc1,pc2,w1queen)
-
-pcc <- cbind(pc1,pc2)
-
-e4 <- moran(pc1,w1queen,nsim=999)
-
-e5 <- moran(pcc,w1queen,nsim=999)
-
-e6 <- moran(pcc,w1queen,type="multi",nsim=999)

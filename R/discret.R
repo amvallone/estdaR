@@ -1,8 +1,24 @@
+#' @name discret
+#' @rdname discret
+#'
+#' @title Discretization of a continuous variable
+#' @description Transform a continous variable into a discret variable.
+#'
+#' @param  x numerical vector
+#' @param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
+#' @param type 	an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used. For more information see the quantile fuction
+#' @param ... other argumnt to \code{\link{discret}} function
+#'
+#' @details for later..
+#'
+#' @return a vector
+#'
+#' @examples
+#' x <- rnorm(1000)
+#' dx <- discret(x,4)
+#'
+#' @export
 
-# x numerical vector
-# classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
-# type 	an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used. For more information see the quantile fuction 
-# internal function used en mkv and sp.mkv functions
 
 discret<-function(x, classes=5,type=7,...){ #subdivide una variable en clases
     if(length(classes)!=1){# class definition ad hoc.
@@ -15,7 +31,7 @@ discret<-function(x, classes=5,type=7,...){ #subdivide una variable en clases
         output<-as.numeric(cut(x,breaks=aux))
       }
     } else {
-      aux <- quantile(x,seq(0,1,1/classes))	
+      aux <- quantile(x,seq(0,1,1/classes))
       output<-as.numeric(cut(x,breaks=aux,include.lowest=TRUE))
     }
     return(output)

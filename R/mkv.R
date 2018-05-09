@@ -1,16 +1,23 @@
-require(spdep)
+#' @name mkv
+#' @rdname mkv
+#'
+#' @title  Markov transition probability matrix
+#' @description Compute thre Markov transition probability matrix
+#'
+#' @param m numerical matrix of n spatial unit ans t time periods
+#' @param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
+#' @param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
+#' @param type an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used. For more information see the quantile fuction
+#' @param ... other argumnt to \code{\link{discret}} function
+#' @return a list contaning the markov's trantiiona matrix and the markov's transition probability matrix
+#'
+#' @examples
+#' data(usincome)
+#' m<-mkv(rpci)
+#'
+#' @export
 
-
-# description Compute thre Markov transition probability matrix
-# param m numerical matrix of n spatial unit ans t time periods
-# param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
-# param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
-# param type an integer between 1 and 9 selecting one of the nine quantile algorithms detailed below to be used. For more information see the quantile fuction 
-
-
-
-
-mkv<-function(m,classes=5,fixed=FALSE,type=7,...){ #Compute Markox transition matrix
+mkv<-function(m,classes=5,fixed=FALSE,type=7,...){
 	#Argument checks
   if(is.null(dim(m))==TRUE) stop("You must provide a matrix conteaining n spatial unita and t periods of time")
   t<-dim(m)[2]
@@ -37,16 +44,3 @@ mkv<-function(m,classes=5,fixed=FALSE,type=7,...){ #Compute Markox transition ma
   return(output)
 }
 
-
-## example
-
-usinc <- read.csv("./exampleData/us_income/usjoin.csv")
-pci <- usinc[,-1]
-pci <- pci[,-1]
-us_mean<-colMeans(pci)
-rpci <- matrix(0,48,81)
-for(i in seq_len(ncol(rpci))){rpci[,i] <- pci[,i]/us_mean[i]}
-w <- read.gal("./exampleData/us_income/states48.gal",region.id=c(0:47))
-w <- nb2listw(w)
-
-m<-mkv(rpci)

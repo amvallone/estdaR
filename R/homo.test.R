@@ -1,10 +1,25 @@
-
-# param x numerical matrix of n spatial unit ans t time periods
-# param W an objet of listw class.
-# param t period of time to compute the spatial lag.
-# param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
-# param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
-
+#' @name homo.test
+#' @rdname homo.test
+#'
+#' @title Test for homogeneity of Markov transition probabilities across regimes.
+#' @description Performs the homogenity across space test for spatial markov trasntion matrix basis on Rey et al, (2016)
+#'
+#' @param x numerical matrix of n spatial unit ans t time periods
+#' @param W an objet of listw class.
+#' @param classes a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut
+#' @param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
+#'
+#' @details For later...
+#'
+#' @return A list coantaning the Q statistic, the LR statistic and matrix use as null hypotesis in the test.
+#'
+#' @references S. J. Rey, W. Kang, and L. Wolf (2016) “The properties of tests for spatial effects in discrete Markov chain models of regional income distribution dynamics,” Journal of  Geographical Systems, vol. 18, no. 4, pp. 377–398.
+#'
+#' @examples
+#' data(usincome)
+#' homo.test(rpci,w)
+#'
+#' @export
 
 homo.test <- function(x,W,classes=5,fixed=TRUE){
 	n <- classes
@@ -45,7 +60,7 @@ homo.test <- function(x,W,classes=5,fixed=TRUE){
 		LR[,,k]<-2 * lr
 		k+1
 	}
-	dof <- as.integer(sum((b_i - 1) * (A_i - 1)))	
+	dof <- as.integer(sum((b_i - 1) * (A_i - 1)))
 	L.R <- L.R * 2
 	pQ <- 1-pchisq(Q,dof)
 	pL.R <- 1-pchisq(L.R,dof)
@@ -55,16 +70,3 @@ homo.test <- function(x,W,classes=5,fixed=TRUE){
 	return(out)
 }
 
-
-## example
-
-usinc <- read.csv("./exampleData/us_income/usjoin.csv")
-pci <- usinc[,-1]
-pci <- pci[,-1]
-us_mean<-colMeans(pci)
-rpci <- matrix(0,48,81)
-for(i in seq_len(ncol(rpci))){rpci[,i] <- pci[,i]/us_mean[i]}
-w <- read.gal("./exampleData/us_income/states48.gal",region.id=c(0:47))
-w <- nb2listw(w)
-
-homo.test(rpci,w)
