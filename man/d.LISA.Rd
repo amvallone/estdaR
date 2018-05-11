@@ -39,10 +39,11 @@ For later...
 }
 \examples{
 data(us48)
-t0<-data$X1969../us.total$X1969..
-t1 <-data$X2008../us.total$X2008..
-Regime <-data$SUB_REGION
-ok <- d.LISA(t0,t1,w1rook,Regime,k=8,nsim=999)
+w1queen <- nb2listw(poly2nb(us48))
+t0<-us48$X1969/mean(us48$X1969)
+t1 <-us48$X2009/mean(us48$X2009)
+Regime <-us48$SUB_REGION
+ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
 
 }
 \references{

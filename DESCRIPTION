@@ -2,7 +2,7 @@ Package: estdaR
 Title: Exploratory Spatio-Temporal Data Analysis in R
 Version: 0.0.0.9000
 Authors@R: person("Andres", "Vallone", email = "avallone@ucn.cl", role = c("aut", "cre"))
-Description: Package to perfomr ESTDA analysis.
+Description: Package to performe ESTDA analysis.
 Depends:
   R (>= 3.4.3),
   spdep,
@@ -12,5 +12,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: rgdal,
     gridExtra,
-    RColorBrewer
+    RColorBrewer,
+    sp
 RoxygenNote: 6.0.1

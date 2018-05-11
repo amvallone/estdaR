@@ -20,7 +20,10 @@ Prais' conditional mobility measure for a class is defined as:
     \eqn{ pr_i = 1 -  p_{i,i}}
 }
 \examples{
-data(usincome)
+data(us48)
+data <- as.data.frame(us48)
+pci <- data[,10:90]
+rpci <- pci/matrix(1,dim(pci))\%*\%colMeans(pci)
 m<-mkv(rpci)
 prais(m[[1]])
 

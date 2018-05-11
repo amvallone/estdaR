@@ -19,8 +19,10 @@
 #' }
 #'
 #' @examples
-#' data(us48ls)
-#' ll <- lisamkv(data[,9:48],w1rook)
+#' data(us48)
+#' data <- as.data.frame(us48)
+#' w1queen <- nb2listw(poly2nb(us48))
+#' ll <- lisamkv(data[,10:90],w1queen)
 #'
 #' @export
 

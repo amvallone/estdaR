@@ -18,8 +18,9 @@
 #'
 #' @examples
 #' data(Guerry)
-#' pcc <- cbind(pc1,pc2)
-#' e1 <- geary(pc1,w1queen,nsim=999)
+#' w1queen<-nb2listw(poly2nb(Guerry))
+#' pcc <- cbind(Guerry$pc1,Guerry$pc2)
+#' e1 <- geary(Guerry$pc1,w1queen,nsim=999)
 #' e2 <- geary(pcc,w1queen,nsim=999)
 #' e3 <- geary(pcc,w1queen,type="multi",nsim=999)
 #' @export

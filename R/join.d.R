@@ -2,7 +2,7 @@
 #' @rdname join.d
 #'
 #' @title Test the independence in the dynamics of a variable and its neighbors
-#' @description Performe a Chi square test for test that dynamics of a variable is independent of dynamics of its neighbors.
+#' @description Performes a Chi square test for test that dynamics of a variable is independent of dynamics of its neighbors.
 #'
 #' @param x numerical matrix of n spatial unit ans t time periods
 #' @param W an objet of listw class.
@@ -16,7 +16,9 @@
 #'
 #' @examples
 #' data(us48)
-#' join.d(data[,9:48],w1rook)
+#' data <- as.data.frame(us48)
+#' w1queen <- nb2listw(poly2nb(us48))
+#' join.d(data[,10:90],w1queen)
 #'
 #' @export
 

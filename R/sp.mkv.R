@@ -15,8 +15,12 @@
 #' @references Rey, S.J. (2001) “Spatial empirics for economic growth and convergence”, 34 Geographical Analysis, 33, 195-214.
 #'
 #' @examples
-#' data(usincome)
-#' sp.mkv(rpci,w)
+#' data(us48)
+#' data <- as.data.frame(us48)
+#' pci <- data[,10:90]
+#' rpci <- pci/matrix(1,dim(pci))%*%colMeans(pci)
+#' w1queen <- nb2listw(poly2nb(us48))
+#' sp.mkv(rpci,w1queen)
 #'
 #' @export
 

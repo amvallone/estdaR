@@ -29,8 +29,10 @@ Compute the Univariable (Anselin,1995) and Bivariable (cite??) Local Moran's I
 later...
 }
 \examples{
-pcc <- cbind(pc1,pc2)
-e4 <- moran(pc1,w1queen,nsim=999)
+data(Guerry)
+w1queen<-nb2listw(poly2nb(Guerry))
+pcc <- cbind(Guerry$pc1,Guerry$pc2)
+e4 <- moran(Guerry$pc1,w1queen,nsim=999)
 e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)
 
 }

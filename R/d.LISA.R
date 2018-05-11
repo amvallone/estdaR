@@ -1,4 +1,4 @@
-#' @import gridExtra RColorBrewer spdep ggplot2 stats graphics
+#' @import gridExtra RColorBrewer spdep ggplot2 stats graphics sp
 #'
 #'
 #' @name d.LISA
@@ -30,10 +30,11 @@
 #'
 #' @examples
 #' data(us48)
-#' t0<-data$X1969../us.total$X1969..
-#' t1 <-data$X2008../us.total$X2008..
-#' Regime <-data$SUB_REGION
-#' ok <- d.LISA(t0,t1,w1rook,Regime,k=8,nsim=999)
+#' w1queen <- nb2listw(poly2nb(us48))
+#' t0<-us48$X1969/mean(us48$X1969)
+#' t1 <-us48$X2009/mean(us48$X2009)
+#' Regime <-us48$SUB_REGION
+#' ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
 #'
 #' @export
 
@@ -52,6 +53,8 @@ d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL){
 	}
 	Regime <- factor(Regime)
 	f.point <- as.data.frame(cbind(x1-x0,x1.lag-x0.lag))
+	y0 <- NULL # unuseful in the code, but avoids a CRAN note.
+	y1 <- NULL
 	vtop<-cbind(rep(0,length(x0)),rep(0,length(x0)),f.point,Regime)
 	colnames(vtop)<-c("x0","y0","x1","y1")
 	lisa <-ggplot(vtop)+
@@ -85,7 +88,7 @@ d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL){
 	angle <- factor(bins, levels = seq_along(symb), labels = symb)
 	len<-c()
 	for (i in seq_len(length(x0))){
-		len<-c(len,spDistsN1(matrix(c(vtop[i,1L],vtop[i,2L]),nrow=1),matrix(c(vtop[i,3L],vtop[i,4L]),nrow=1)))
+		len<-c(len,sp::spDistsN1(matrix(c(vtop[i,1L],vtop[i,2L]),nrow=1),matrix(c(vtop[i,3L],vtop[i,4L]),nrow=1)))
 	}
 	real<-hist(z,breaks=breaks,plot=FALSE)$counts
 	d.plot <- data.frame(Regime=factor(Regime),angle=as.character(angle),length=len)

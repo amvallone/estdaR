@@ -25,8 +25,12 @@ Performs the homogenity across space test for spatial markov trasntion matrix ba
 For later...
 }
 \examples{
-data(usincome)
-homo.test(rpci,w)
+data(us48)
+data <- as.data.frame(us48)
+pci <- data[,10:90]
+rpci <- pci/matrix(1,dim(pci))\%*\%colMeans(pci)
+w1queen <- nb2listw(poly2nb(us48))
+homo.test(rpci,w1queen)
 
 }
 \references{

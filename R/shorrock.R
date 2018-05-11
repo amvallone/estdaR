@@ -9,7 +9,10 @@
 #' @return a vector
 #'
 #' @examples
-#' data(usincome)
+#' data(us48)
+#' data <- as.data.frame(us48)
+#' pci <- data[,10:90]
+#' rpci <- pci/matrix(1,dim(pci))%*%colMeans(pci)
 #' m <- mkv(rpci)
 #' shorrock(m[[1]])
 #'

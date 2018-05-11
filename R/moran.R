@@ -17,8 +17,10 @@
 #' Anselin, L. (1995). Local Indicators of Spatial Association—LISA. Geographical Analysis, 27(2), 93–115. \url{https://doi.org/10.1111/j.1538-4632.1995.tb00338.x}
 #'
 #' @examples
-#' pcc <- cbind(pc1,pc2)
-#' e4 <- moran(pc1,w1queen,nsim=999)
+#' data(Guerry)
+#' w1queen<-nb2listw(poly2nb(Guerry))
+#' pcc <- cbind(Guerry$pc1,Guerry$pc2)
+#' e4 <- moran(Guerry$pc1,w1queen,nsim=999)
 #' e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)
 #'
 #' @export

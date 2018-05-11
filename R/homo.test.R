@@ -16,8 +16,12 @@
 #' @references S. J. Rey, W. Kang, and L. Wolf (2016) “The properties of tests for spatial effects in discrete Markov chain models of regional income distribution dynamics,” Journal of  Geographical Systems, vol. 18, no. 4, pp. 377–398.
 #'
 #' @examples
-#' data(usincome)
-#' homo.test(rpci,w)
+#' data(us48)
+#' data <- as.data.frame(us48)
+#' pci <- data[,10:90]
+#' rpci <- pci/matrix(1,dim(pci))%*%colMeans(pci)
+#' w1queen <- nb2listw(poly2nb(us48))
+#' homo.test(rpci,w1queen)
 #'
 #' @export
 

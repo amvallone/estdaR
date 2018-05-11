@@ -18,13 +18,15 @@ a list coantaning \itemize{
    }
 }
 \description{
-Performe a Chi square test for test that dynamics of a variable is independent of dynamics of its neighbors.
+Performes a Chi square test for test that dynamics of a variable is independent of dynamics of its neighbors.
 }
 \details{
 The test decompose the LISA Markov chain in a pair of chains, one for the city and other for the neighbors, each chain has two states H and L and under the null of independence test the co-movement of the chains.
 }
 \examples{
 data(us48)
-join.d(data[,9:48],w1rook)
+data <- as.data.frame(us48)
+w1queen <- nb2listw(poly2nb(us48))
+join.d(data[,10:90],w1queen)
 
 }

@@ -12,7 +12,10 @@
 #' @return a list contaning the markov's trantiiona matrix and the markov's transition probability matrix
 #'
 #' @examples
-#' data(usincome)
+#' data(us48)
+#' data <- as.data.frame(us48)
+#' pci <- data[,10:90]
+#' rpci <- pci/matrix(1,dim(pci))%*%colMeans(pci)
 #' m<-mkv(rpci)
 #'
 #' @export

@@ -26,6 +26,7 @@ explain here what is the geoda
 }
 \examples{
 data(Guerry)
-quad(pc1,w1queen)
+w1queen<-nb2listw(poly2nb(Guerry))
+quad(Guerry$pc1,w1queen)
 
 }

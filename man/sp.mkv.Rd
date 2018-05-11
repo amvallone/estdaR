@@ -25,8 +25,12 @@ Compute the Spatial Markov transition probability matrix (Rey,2001)
 for later..
 }
 \examples{
-data(usincome)
-sp.mkv(rpci,w)
+data(us48)
+data <- as.data.frame(us48)
+pci <- data[,10:90]
+rpci <- pci/matrix(1,dim(pci))\%*\%colMeans(pci)
+w1queen <- nb2listw(poly2nb(us48))
+sp.mkv(rpci,w1queen)
 
 }
 \references{
