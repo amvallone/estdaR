@@ -4,7 +4,8 @@
 \alias{d.LISA}
 \title{Directional LISA}
 \usage{
-d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE, nsim = NULL)
+d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE, nsim = NULL,
+  arrow = TRUE, only = NULL)
 }
 \arguments{
 \item{x0}{a vector conatining the variale at initial period of analyis}
@@ -20,6 +21,10 @@ d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE, nsim = NULL)
 \item{mean.rel}{a logical, Is the data mean relative?. By default it is FALSE}
 
 \item{nsim}{number of random spatial permutations for calculation of pseudo p-values, the default value is NULL.}
+
+\item{arrow}{Logical. Do you want to plot the arrows in the standardised plot?. If it is set as FALSE the arrow head is plot as a point.}
+
+\item{only}{numerical indicating the spatial unit to be considered in the plot, the NULL value imply the use of all the spatial unit in the plot.}
 }
 \value{
 a list contaning \describe{

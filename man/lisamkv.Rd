@@ -4,12 +4,14 @@
 \alias{lisamkv}
 \title{Markov for Local Indicators of Spatial Association}
 \usage{
-lisamkv(x, W)
+lisamkv(x, W, ...)
 }
 \arguments{
 \item{x}{numerical matrix of n spatial unit ans t time periods}
 
 \item{W}{an objet of listw class.}
+
+\item{...}{other argument to \code{quad} function. See \code{\link{quad}} for more infomation.}
 }
 \value{
 a list cantaning three object

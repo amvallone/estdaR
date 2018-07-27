@@ -8,7 +8,7 @@
 #'
 #' @param x numerical matrix of n spatial unit ans t time periods
 #' @param W an objet of listw class.
-#'
+#' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
 #' @details For later...
 #'
 #' @return a list cantaning three object
@@ -26,12 +26,12 @@
 #'
 #' @export
 
-lisamkv<-function(x,W){
+lisamkv<-function(x,W,...){
   if(is.null(dim(x))==TRUE) stop("You must provide a matrix conteaining n spatial unita and t  time periods")
   t<-dim(x)[2L]
   n<-dim(x)[1L]
   if(t<2L) stop("At least you must provide two time periods")
-  LISA <- apply(x,2,quad,W=W)
+  LISA <- apply(x,2,quad,W=W,...)
   type <- matrix(c(1:16),nrow=4,ncol=4,byrow=TRUE) #All the possible movements
   move<-matrix(0,nrow=n,ncol=(t-1))
   for (i in 1L:(t-1)){

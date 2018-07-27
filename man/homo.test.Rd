@@ -2,37 +2,34 @@
 % Please edit documentation in R/homo.test.R
 \name{homo.test}
 \alias{homo.test}
-\title{Test for homogeneity of Markov transition probabilities across regimes.}
+\title{Test of time homogeneity}
 \usage{
-homo.test(x, W, classes = 5, fixed = TRUE)
+homo.test(x, classes = 5, pr = 3)
 }
 \arguments{
 \item{x}{numerical matrix of n spatial unit ans t time periods}
 
-\item{W}{an objet of listw class.}
-
 \item{classes}{a number of a numeric vector of two or more unique cut points giving the number of intervals into which x will be cut}
 
-\item{fixed}{logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data}
+\item{pr}{number of subperiods in which to divide the entire sample}
 }
 \value{
-A list coantaning the Q statistic, the LR statistic and matrix use as null hypotesis in the test.
+A list coantaning the Q statistic and the LR statistic.
 }
 \description{
-Performs the homogenity across space test for spatial markov trasntion matrix basis on Rey et al, (2016)
+Computes the Test of time homogeneity  based on Bickenbach and Bode (2003)
 }
 \details{
-For later...
+for later.....
 }
 \examples{
 data(us48)
 data <- as.data.frame(us48)
 pci <- data[,10:90]
 rpci <- pci/matrix(1,dim(pci))\%*\%colMeans(pci)
-w1queen <- nb2listw(poly2nb(us48))
-homo.test(rpci,w1queen)
+homo.test(rpci,pr=5)
 
 }
 \references{
-S. J. Rey, W. Kang, and L. Wolf (2016) “The properties of tests for spatial effects in discrete Markov chain models of regional income distribution dynamics,” Journal of  Geographical Systems, vol. 18, no. 4, pp. 377–398.
+Bickenbach, F. and Bode, E. 2003. Evaluating the Markov Property in Studies of Economic Convergence, International Regional Science Review, vol. 26, no. 3, 363–92
 }

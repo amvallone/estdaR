@@ -14,7 +14,8 @@
 #' @param k a scalar in c(4,8) indicating number of circular sectors in rose diagram, by default it is set as 8
 #' @param mean.rel a logical, Is the data mean relative?. By default it is FALSE
 #' @param nsim  number of random spatial permutations for calculation of pseudo p-values, the default value is NULL.
-#'
+#' @param arrow Logical. Do you want to plot the arrows in the standardised plot?. If it is set as FALSE the arrow head is plot as a point.
+#' @param only numerical indicating the spatial unit to be considered in the plot, the NULL value imply the use of all the spatial unit in the plot.
 #' @details For later...
 #'
 #' @references Rey, S. J., Murray, A. T., & Anselin, L. (2011). Visualizing regional income distribution dynamics. Letters in Spatial and Resource Sciences, 4(1), 81–90.
@@ -40,7 +41,7 @@
 
 
 
-d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL){
+d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL,arrow=TRUE,only=NULL){
 	skip.leg <- ifelse(is.null(Regime)==TRUE,1,0)
 	if (is.null(Regime)==TRUE) { Regime <- rep(1,length(x0)) }
 	x0.lag <- lag.listw(W,x0)
@@ -56,17 +57,34 @@ d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL){
 	y0 <- NULL # unuseful in the code, but avoids a CRAN note.
 	y1 <- NULL
 	vtop<-cbind(rep(0,length(x0)),rep(0,length(x0)),f.point,Regime)
-	colnames(vtop)<-c("x0","y0","x1","y1")
-	lisa <-ggplot(vtop)+
-		geom_hline(yintercept=0,linetype=1)+
-		geom_vline(xintercept=0,linetype=1)+
-		geom_segment(aes(x=x0, xend=x1, y=y0, yend=y1,color=Regime),size=1.1,arrow=arrow(length = unit(0.2, "cm")))+
-		theme(
-		legend.position="bottom",
-		panel.border = element_rect(linetype = "solid", fill = NA),
-		panel.background = element_rect(fill = NA),
-		panel.grid.major = element_line()
-			)+xlab("X")+ylab("WX")+scale_color_brewer(palette="Set1",direction=-1)
+	colnames(vtop)<-c("x0","y0","x1","y1","Regime")
+	if(!is.null(only)){
+	  vtop <- vtop[only,]
+	}
+	if(arrow==FALSE){
+	  lisa <-ggplot(vtop)+
+	    geom_hline(yintercept=0,linetype=1)+
+	    geom_vline(xintercept=0,linetype=1)+
+	    geom_point(aes(x=x1, y=y1,color=Regime),size=1.1,arrow=arrow(length = unit(0.2, "cm")))+
+	    theme(
+	      legend.position="bottom",
+	      panel.border = element_rect(linetype = "solid", fill = NA),
+	      panel.background = element_rect(fill = NA),
+	      panel.grid.major = element_line()
+	    )+xlab("X")+ylab("WX")+scale_color_brewer(palette="Set1",direction=-1)
+	} else {
+	  lisa <-ggplot(vtop)+
+	    geom_hline(yintercept=0,linetype=1)+
+	    geom_vline(xintercept=0,linetype=1)+
+	    geom_segment(aes(x=x0, xend=x1, y=y0, yend=y1,color=Regime),size=1.1,arrow=arrow(length = unit(0.2, "cm")))+
+	    theme(
+	      legend.position="bottom",
+	      panel.border = element_rect(linetype = "solid", fill = NA),
+	      panel.background = element_rect(fill = NA),
+	      panel.grid.major = element_line()
+	    )+xlab("X")+ylab("WX")+scale_color_brewer(palette="Set1",direction=-1)
+	}
+
 
 #_________________ROSE_____________________________________
 	rotar <-ifelse(k==8,pi/4,0)
@@ -86,14 +104,14 @@ d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL){
         i = i + 1L
     }
 	angle <- factor(bins, levels = seq_along(symb), labels = symb)
-	len<-c()
-	for (i in seq_len(length(x0))){
-		len<-c(len,sp::spDistsN1(matrix(c(vtop[i,1L],vtop[i,2L]),nrow=1),matrix(c(vtop[i,3L],vtop[i,4L]),nrow=1)))
+	if(!is.null(only)){
+	  angle <- angle[only]
 	}
+	len <- sp::spDistsN1(as.matrix(vtop[,3:4]),c(0,0))
 	real<-hist(z,breaks=breaks,plot=FALSE)$counts
-	d.plot <- data.frame(Regime=factor(Regime),angle=as.character(angle),length=len)
-	d.plot <- within(d.plot,angle <- factor(angle,levels=c(symb[1],symb[length(lmt):2]))) # inverse order
-	rose<-ggplot(d.plot,aes(angle,fill=Regime),xlab=" ",ylab=" ") +geom_bar(width=1,colour="black",size=0.1) +scale_x_discrete(name="")+scale_y_continuous(name="",breaks=seq(0,max(table(angle)),5),labels=seq(0,max(table(angle)),5))+coord_polar(start=rotar)+theme(legend.position="bottom",panel.grid.major = element_line( color="gray50",linetype="solid"),panel.background = element_blank())+scale_fill_brewer(palette="Set1",direction=-1)
+	d.plot <- data.frame(Regime=factor(vtop$Regime),angle=as.character(angle),length=len)
+	lim=c(symb[1],symb[length(symb):2])
+	rose<-ggplot(d.plot,aes(angle,fill=Regime),xlab=" ",ylab=" ") +geom_bar(width=1,colour="black",size=0.1) +scale_x_discrete(name="",limit=lim)+scale_y_continuous(name="",breaks=seq(0,max(table(angle)),5),labels=seq(0,max(table(angle)),5))+coord_polar(start=rotar)+theme(legend.position="bottom",panel.grid.major = element_line( color="gray50",linetype="solid"),panel.background = element_blank())+scale_fill_brewer(palette="Set1",direction=-1)
 
 #__________P VALUES_______________________
 
