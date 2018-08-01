@@ -1,49 +1,553 @@
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/usincome.rdata")
+aut.navarra[1]
+autnomos <- do.call(rbind.data.frame,aut.navarra)
+dim(autonomos)
+dim(autnomos)
+head(autnomos)
+openxlsx::wirte.xlsx(autnomos,"autnomos-navarra.xlsx")
+openxlsx::write.xlsx(autnomos,"autnomos-navarra.xlsx")
+autonomos <- autnomos
+save(autonomos,file="aut-navarra.rdata")
 ls()
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/mexico.rdata")
-ls()
-str(mexico)
-dim(mexico)
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
-ls()
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
-ls()
-data[,9:48]
-class(data)
+navarra
+library(SataSpa)
+library(DataSpa)
+pob.ind(206,"Melilla")
+pob.ind(2006,"Melilla")
+paro(2006,"Melilla")
+paro(2006,"junio","Melilla")
+dirc<-paste(getwd(),"/data_paro/",sep="")
+dirc
+dir(dirc)
+abre<-paste(dirc,file1,sep="")
+abre<-paste(dirc,"paro_MUNI_MELILLA_0716.xls",sep="")
+abre
+abre<-paste(dirc,file1,sep="")
+datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))
+datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
+datos
+datos<-apply(datos,2,as.character)
+datos
+datos<-datos[-dim(datos)[1],]
+datos
+p<-which(datos[,1]=="MUNICIPIOS")+1
+p
+abre<-paste(dirc,"paro_MUNI_MELILLA_0706.xls",sep="")
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))
+datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
+datos<-apply(datos,2,as.character)
+p<-which(datos[,1]=="MUNICIPIOS")+1
+p
+datos
+datos<-datos[-dim(datos)[1],]
+p<-which(datos[,1]=="MUNICIPIOS")+1#
+		f<-dim(datos)[1]
+datos
+datos<-datos[p:f,]#
+		datos<-cbind(datos[,1],datos)
+datos
+datos<-datos[-1,]
+cod<-datos[,1]#
+		n.m<-datos[,2]
+datos
+datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
+datos
+abre
+open<-paste(dirc,file,sep="")
+dirc
+dir(dirc)
+open<-paste(dirc,"paro_MUNI_MELILLA_0716.xls",sep="")
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))#
+		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
+		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
+		datos<-apply(datos,2,as.character)#
+		idn<-apply(idn,2,as.character)#
+		datos<-datos[-dim(datos)[1],]#
+		idn<-idn[-dim(idn)[1],]#
+		p<-which(datos[,1]=="MUNICIPIOS")+1#
+		f<-dim(datos)[1]#
+		pi<-max(which(is.na(idn[,1])))+1#
+		fi<-dim(idn)[1]#
+		datos<-datos[p:f,]#
+		datos<-cbind(datos[,1],datos)#
+		v<-intersect(datos[,1],idn[,2])#
+		for( k in 1:length(v)){#
+			if(length(which(idn[,2]==v[k]))>1){#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
+			}else{#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
+			}#
+		}#
+		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
+			cero<-rep(0,dim(datos)[1])#
+			datos[,1]<-paste(cero,datos[,1],sep="")#
+		}#
+		datos<-datos[-1,]#
+		cod<-datos[,1]#
+		n.m<-datos[,2]
+library(stringi)
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))#
+		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
+		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
+		datos<-apply(datos,2,as.character)#
+		idn<-apply(idn,2,as.character)#
+		datos<-datos[-dim(datos)[1],]#
+		idn<-idn[-dim(idn)[1],]#
+		p<-which(datos[,1]=="MUNICIPIOS")+1#
+		f<-dim(datos)[1]#
+		pi<-max(which(is.na(idn[,1])))+1#
+		fi<-dim(idn)[1]#
+		datos<-datos[p:f,]#
+		datos<-cbind(datos[,1],datos)#
+		v<-intersect(datos[,1],idn[,2])#
+		for( k in 1:length(v)){#
+			if(length(which(idn[,2]==v[k]))>1){#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
+			}else{#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
+			}#
+		}#
+		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
+			cero<-rep(0,dim(datos)[1])#
+			datos[,1]<-paste(cero,datos[,1],sep="")#
+		}#
+		datos<-datos[-1,]#
+		cod<-datos[,1]#
+		n.m<-datos[,2]
+datos
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))#
+		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
+		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
+		datos<-apply(datos,2,as.character)#
+		idn<-apply(idn,2,as.character)#
+		datos<-datos[-dim(datos)[1],]#
+		idn<-idn[-dim(idn)[1],]#
+		p<-which(datos[,1]=="MUNICIPIOS")+1#
+		f<-dim(datos)[1]#
+		pi<-max(which(is.na(idn[,1])))+1#
+		fi<-dim(idn)[1]#
+		datos<-datos[p:f,]#
+		datos<-cbind(datos[,1],datos)#
+		v<-intersect(datos[,1],idn[,2])#
+		for( k in 1:length(v)){#
+			if(length(which(idn[,2]==v[k]))>1){#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
+			}else{#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
+			}#
+		}#
+		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
+			cero<-rep(0,dim(datos)[1])#
+			datos[,1]<-paste(cero,datos[,1],sep="")#
+		}
+datos
+datos<-datos[-1,
+]
+dim(datos)
+if(is.null(dim(datos))){datos <- as.matrix(datos)}
+dim(datos)
+if(is.null(dim(datos))){datos <- t(as.matrix(datos))}
+datos
+if(is.null(dim(datos))){datos <- matrix(datos,nrow=1)}
+datos
+wb <- loadWorkbook(abre)#
+		sh <- getSheets(wb)#
+		hoja <- agrep("PARO",names(sh))#
+		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
+		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
+		datos<-apply(datos,2,as.character)#
+		idn<-apply(idn,2,as.character)#
+		datos<-datos[-dim(datos)[1],]#
+		idn<-idn[-dim(idn)[1],]#
+		p<-which(datos[,1]=="MUNICIPIOS")+1#
+		f<-dim(datos)[1]#
+		pi<-max(which(is.na(idn[,1])))+1#
+		fi<-dim(idn)[1]#
+		datos<-datos[p:f,]#
+		datos<-cbind(datos[,1],datos)#
+		v<-intersect(datos[,1],idn[,2])#
+		for( k in 1:length(v)){#
+			if(length(which(idn[,2]==v[k]))>1){#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
+			}else{#
+				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
+			}#
+		}#
+		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
+			cero<-rep(0,dim(datos)[1])#
+			datos[,1]<-paste(cero,datos[,1],sep="")#
+		}#
+		datos<-datos[-1,]
+class(datos)
+length(datos)
+matrix(datos)
+t(matrix(datos))
+if(is.null(dim(datos))){datos <- t(matrix(datos ))}
+datos
+cod<-datos[,1]
+cod
+library(rvest)
+read:html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+read_table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+html_table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+html_table(read_hatml("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))
+html_table(read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))
+html_table(read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))->s
+s
+open("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+read.table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+library(readxl)
+read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+install.packages("readr")
+library(readr)
+read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+load("/Users/andresvallone/Dropbox/FIC CBC 2 2018/Calculo de indices/Data2/imp.RData")
+get.Comtrade <- function(#
+                          maxrec=50000#
+                         ,type="C"#
+                         ,freq="A"#
+                         ,px="HS"#
+                         ,ps="now"#
+                         ,r#
+                         ,p#
+                         ,rg="all"#
+                         ,cc="TOTAL"#
+                         ,fmt="csv"#
+)#
+{#
+  string<- paste(url="http://comtrade.un.org/api/get?"#
+                 ,"max=",maxrec,"&" #maximum no. of records returned#
+                 ,"type=",type,"&" #type of trade (c=commodities)#
+                 ,"freq=",freq,"&" #frequency#
+                 ,"px=",px,"&" #classification#
+                 ,"ps=",ps,"&" #time period#
+                 ,"r=",r,"&" #reporting area#
+                 ,"p=",p,"&" #partner country#
+                 ,"rg=",rg,"&" #trade flow#
+                 ,"cc=",cc,"&" #classification code#
+                 ,"fmt=",fmt        #Format#
+                 ,sep = ""#
+  )#
+  if(fmt == "csv") {#
+   # raw.data<- read.csv(string,header=TRUE)#
+    #return(list(validation=NULL, data=raw.data))#
+    #return(raw.data)#
+    return(string)#
+  } else {#
+    if(fmt == "json" ) {#
+      raw.data<- fromJSON(file=string)#
+      data<- raw.data$dataset#
+      validation<- unlist(raw.data$validation, recursive=TRUE)#
+      ndata<- NULL#
+      if(length(data)> 0) {#
+        var.names<- names(data[[1]])#
+        data<- as.data.frame(t( sapply(data,rbind)))#
+        ndata<- NULL#
+        for(i in 1:ncol(data)){#
+          data[sapply(data[,i],is.null),i]<- NA#
+          ndata<- cbind(ndata, unlist(data[,i]))#
+        }#
+        ndata<- as.data.frame(ndata)#
+        colnames(ndata)<- var.names#
+      }#
+      #return(list(validation=validation,data =ndata))#
+      return(ndata)#
+    }#
+  }#
+}
+ask(year[1],c.pai[1],prod[1])
+ll <- lapply(seq_len(200),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
+ll <- unlist(ll)
+ll[1:10]
+read_csv2("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
+library(snowfall)#
+sfInit(parallel=TRUE,cpu=3)#
+sfExportAll()#
+sfLibrary(readr)#
+#
+l_data<-sfClusterApplyLB(ll,read_csv)#
+#
+sfStop()
+length(l_data)
+read_csv(ll[1])
+read_csv(ll[2])
+read_csv(ll[20])
+read_csv(ll[21])
+read_csv(ll[23])
+read_csv(ll[195])
+l_data <- list(seq_along(prod))
+length(l_data)
+l:data
+l_data
+l_data <- list()#
+for (i in seq_alon(prod)){#
+	l:data[[i]] <- read_csv(ll[i])#
+	Sys.sleep(3)#
+}
+l_data <- list()#
+for (i in seq_along(prod)){#
+	l:data[[i]] <- read_csv(ll[i])#
+	Sys.sleep(3)#
+}
+l_data <- list()#
+for (i in seq_along(prod)){#
+	l_data[[i]] <- read_csv(ll[i])#
+	Sys.sleep(3)#
+}
+length(l_data)
+for (i in 88:length(prod)){#
+	l_data[[i]] <- read_csv(ll[i])#
+	Sys.sleep(3)#
+}
+l_dara <- lapply(ll,read.csv)
+read.csv(ll[1])
+read.csv(ll[195])
+195+195
+length(prod)
+length(prod)/195
+length(prod)/195/10
+ll <- lapply(seq_along(prod),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
+cortes <- split(ll, ceiling(seq_along(prod)/195))
+cortes[1]
+class(corte[[1]])
+class(cortes[[1]])
+c <- llaply(cortes,unlist)
+c <- lapply(cortes,unlist)
+c[[1]]
+cortes <- lapply(split(ll, ceiling(seq_along(prod)/195)),unlist)
+cortes[1]
+lapply(cortes[[1]],read.csv)->p
+p
+length/cortes
+length(cortes)
+119/24
+datos <- lapply(cortes[[1]],read.csv) # remplaza "#" por un numero, la PC 1 el 1, la PC 2 el " y asi...
+ll[1]
+load("/Users/andresvallone/Dropbox/FIC CBC 2 2018/Calculo de indices/Data2/imp.RData")
+data <- list()#
+k <- 0#
+b <- 1#
+bar <- txtProgressBar(min = 0, max =length(prod), style = 3)#
+#
+for(j in b:length(prod)){#
+	data[[j]] <- read.csv(ll[[j]])#
+	Sys.sleep(1)#
+	setTxtProgressBar(bar,j)#
+	k <- k+1#
+	if(k==100){#
+		Sys.sleep(3600)#
+		k <- 0#
+	}#
+}
+get.Comtrade <- function(#
+                          maxrec=50000#
+                         ,type="C"#
+                         ,freq="A"#
+                         ,px="HS"#
+                         ,ps="now"#
+                         ,r#
+                         ,p#
+                         ,rg="all"#
+                         ,cc="TOTAL"#
+                         ,fmt="csv"#
+)#
+{#
+  string<- paste(url="http://comtrade.un.org/api/get?"#
+                 ,"max=",maxrec,"&" #maximum no. of records returned#
+                 ,"type=",type,"&" #type of trade (c=commodities)#
+                 ,"freq=",freq,"&" #frequency#
+                 ,"px=",px,"&" #classification#
+                 ,"ps=",ps,"&" #time period#
+                 ,"r=",r,"&" #reporting area#
+                 ,"p=",p,"&" #partner country#
+                 ,"rg=",rg,"&" #trade flow#
+                 ,"cc=",cc,"&" #classification code#
+                 ,"fmt=",fmt        #Format#
+                 ,sep = ""#
+  )#
+  if(fmt == "csv") {#
+    #raw.data<- read.csv(string,header=TRUE)#
+    #return(list(validation=NULL, data=raw.data))#
+    return(string)#
+  } else {#
+    if(fmt == "json" ) {#
+      raw.data<- fromJSON(file=string)#
+      data<- raw.data$dataset#
+      validation<- unlist(raw.data$validation, recursive=TRUE)#
+      ndata<- NULL#
+      if(length(data)> 0) {#
+        var.names<- names(data[[1]])#
+        data<- as.data.frame(t( sapply(data,rbind)))#
+        ndata<- NULL#
+        for(i in 1:ncol(data)){#
+          data[sapply(data[,i],is.null),i]<- NA#
+          ndata<- cbind(ndata, unlist(data[,i]))#
+        }#
+        ndata<- as.data.frame(ndata)#
+        colnames(ndata)<- var.names#
+      }#
+      #return(list(validation=validation,data =ndata))#
+      return(string)#
+    }#
+  }#
+}#
+#
+#datos <- openxlsx::read.xlsx("falllas.xlsx")#
+#pai <- openxlsx::read.xlsx("ccountry.xlsx")#
+#
+#pai.c <- unique(datos[,1])
+ask<-function(y,pa,c,...){#
+	tryCatch(#
+		get.Comtrade(ps=y,r=pa,rg=1,cc=c,p=0,...),#
+		error=function(e){e}#
+	)#
+}#
+#
+ll <- lapply(seq_along(prod),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
+data <- list()#
+k <- 0#
+b <- 1#
+bar <- txtProgressBar(min = 0, max =length(prod), style = 3)#
+#
+for(j in b:length(prod)){#
+	data[[j]] <- read.csv(ll[[j]])#
+	Sys.sleep(1)#
+	setTxtProgressBar(bar,j)#
+	k <- k+1#
+	if(k==100){#
+		Sys.sleep(3600)#
+		k <- 0#
+	}#
+}
+length(data)
+install.packages("meme")
+library(meme)
+plot(create_meme("http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot","En serio...","que hoy no podemos??"))
+u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
+plot(grumpy <- create_meme(u, "", "R-help"))
+library(meme)
+u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
+plot(grumpy <- create_meme(u, "", "R-help"))
+devtools::install_github("leeper/meme")
+library(meme)
+u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
+plot(grumpy <- create_meme(u, "", "R-help"))
+plot(create_meme("http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot","En serio...","que hoy no podemos??"))
+templates <- get_templates("memecaptain")
+u
+browse(u)
+u <- "http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot"
+plot(grumpy <- create_meme(u, "", "R-help"))
 getwd()
-plot(data)
-dim8data
-us.map <- data
-data <- as.data.frame(data)
-class(data)
-data[,9:48]
-save(list=ls(),file="us48.rdata")
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
-rm(list=ls())
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
-ls()
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/usincome.rdata")
-ls()
-dim(rpci)
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/us48.rdata")
-ls()
-head(data)
-head(usinc)
-us.total
-class(us.map)
-rm(list=ls())
-load("/Users/andresvallone/Dropbox/tesis_AndresVallone/PAPERS/Rpackage/03-estdaR/estdaR/data/Guerry.rdata")
-ls()
-calss(Guery)
-class(Guerry)
-head(Guerry)
-getwd()
-setwd("..")
+u <- "http://www.letuswrite.net/wp-content/uploads/2014/11/5490596-crazy-man.jpg"
+plot(grumpy <- create_meme(u, "", "R-help"))
+library(DataSpa)
+pob.tot(2017,"Avila")
+pob.tot(2017,"Avila")->pp
+pp
+dim(pp)
+sum(pp[,3])
+pob.tot(2017,"Madrid")->pp
+pp
 library(devtools)
-check()
-check()
-load("./data/Guerry.rdata")
-ls()
-check()
-load("./data/us48.rdata")
-ls()
+load_all()
+data(us48)#
+w1queen <- nb2listw(poly2nb(us48))#
+t0<-us48$X1969/mean(us48$X1969)#
+t1 <-us48$X2009/mean(us48$X2009)#
+Regime <-us48$SUB_REGION
+ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,arrow=FALSE)
+q1 <- quad(t0,w1queen)
+HH <-which(q1==1) #only HH on the initial period#
+#
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)->c
+c$data
+length(HH)
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,arrow=FALSE,only=HH)->c
+d.LISA(t0,t1,w1queen,Regime,k=4,nsim=999,arrow=FALSE,only=HH)->c
+a<-c$rose
+a
+c$data
+c$counts
+a+coord_ploar(start=pi)
+a+coord_polar(start=pi)
+a+coord_polar(start=pi/4)
+a+coord_polar(start=pi/8)
+a+coord_polar(start=pi/10)
+a+coord_polar(start=pi/12)
+a+coord_polar(start=pi/15)
+a+coord_polar(start=pi/2)
+a+coord_polar(start=-pi/2)
+a+coord_polar(start=pi/20)
+a+coord_polar(start=pi/40)
+a+coord_polar(start=pi/50)
+a+coord_polar(start=pi/60)
+a+coord_polar(start=pi/80)
+a+coord_polar(start=pi/90)
+a+coord_polar(start=0)
+a+coord_polar(start=-0)
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)->c
+a<-c$rose
+a
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
+k<-8
+step <- (2*pi)/k#
+	breaks <- seq(0,2*pi,step)#
+	lmt <- (breaks * 180)/pi # rad to deg#
+	symb<-c()#
+	for (i in seq_len(length(lmt)-1)){#
+		symb <- c(symb, paste(lmt[i],lmt[i+1],sep="-"))#
+	}
+symb
+lim=c(symb[1],symb[length(lmt):2]))
+lim=c(symb[1],symb[length(lmt):2])
+kim
+lim
+lmt
+lim=c(symb[1],symb[length(sym):2])
+lim=c(symb[1],symb[length(symb):2])
+lim
+a+scale_x_discrete(limit=lim)
+load_all()
+d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)
+ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
+dataplot <- ok$data
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.3) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.05) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.01) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.03) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.003) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.001) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.003) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.003) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.003)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.003)
+bplot
+bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb)#
+#
+bplot
+sig.lisamkv(cbind(t0,t1),w1queen)
+data(us48)#
+data <- as.data.frame(us48)#
+w1queen <- nb2listw(poly2nb(us48))#
+ll <- sig.lisamkv(data[,10:90],w1queen)
+ll
+devtools::install_github("amvallone/estdaR")
+devtools::install_github("amvallone/estdaR")
