@@ -1,6 +1,6 @@
 # estdaR
 
-This package contains a set of functions to perfomr exploratory spatio-temporal data analisys in R.
+This package contains a set of functions to perform exploratory spatio-temporal data analysis in R.
 
 We have no intentions in the short run to upload the package to the CRAN. The package 'devtools' is required to install the package
 
