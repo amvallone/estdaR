@@ -7,10 +7,10 @@
 #' @title Directional LISA
 #' @description Compute the origin standardized movement of a spatial unit and its neighbors and the pseudo p-value of the directional co-movement.
 #'
-#' @param x0 a vector conatining the variale at initial period of analyis
-#' @param x1 a vector conatining the variale at final period of analyis
-#' @param W an objecto of class \code{listw}
-#' @param Regime a numerci vector contaning the regime to the sptail unit belongs
+#' @param x0 a vector containing the variale at initial period of analyis
+#' @param x1 a vector containing the variale at final period of analyis
+#' @param W an object of class \code{listw}
+#' @param Regime a numeric vector containing the regime to the spatial unit belongs
 #' @param k a scalar in c(4,8) indicating number of circular sectors in rose diagram, by default it is set as 8
 #' @param mean.rel a logical, Is the data mean relative?. By default it is FALSE
 #' @param nsim  number of random spatial permutations for calculation of pseudo p-values, the default value is NULL.
@@ -21,12 +21,12 @@
 #' @references Rey, S. J., Murray, A. T., & Anselin, L. (2011). Visualizing regional income distribution dynamics. Letters in Spatial and Resource Sciences, 4(1), 81–90.
 #'
 #' @return a list contaning \describe{
-#'     \item{"Lisa"}{A vector scatterplot showing the Directinal co-movent of a spatial unit and its neighbors}
+#'     \item{"Lisa"}{A vector scatterplot showing the Directinal co-movement of a spatial unit and its neighbors}
 #'     \item{"rose"}{A rose diagram of the LISA}
 #'     \item{"p.rose"}{pseudo p-values of the direction in the rose diagram. Only available when nsimm is not NULL}
 #'     \item{"data"}{a data frame contening the data used for the lisa scatterplot}
-#'     \item{"counts"}{a data frame conating the information used for the rose diagram}
-#'     \item{"p.value"}{a data frame contaning the information used in the pseudo p-value graph. ONly available when nsim is not NULL}
+#'     \item{"counts"}{a data frame containing the information used for the rose diagram}
+#'     \item{"p.value"}{a data frame containing the information used in the pseudo p-value graph. Only available when nsim is not NULL}
 #'  }
 #'
 #' @examples
