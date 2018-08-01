@@ -7,8 +7,8 @@
 #' @title Directional LISA
 #' @description Compute the origin standardized movement of a spatial unit and its neighbors and the pseudo p-value of the directional co-movement.
 #'
-#' @param x0 a vector containing the variale at initial period of analyis
-#' @param x1 a vector containing the variale at final period of analyis
+#' @param x0 a vector containing the variable at initial period of analysis
+#' @param x1 a vector containing the variable at final period of analysis
 #' @param W an object of class \code{listw}
 #' @param Regime a numeric vector containing the regime to the spatial unit belongs
 #' @param k a scalar in c(4,8) indicating number of circular sectors in rose diagram, by default it is set as 8
