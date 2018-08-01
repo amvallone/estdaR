@@ -65,7 +65,7 @@ d.LISA <- function(x0,x1,W,Regime=NULL,k=8,mean.rel=FALSE,nsim=NULL,arrow=TRUE,o
 	  lisa <-ggplot(vtop)+
 	    geom_hline(yintercept=0,linetype=1)+
 	    geom_vline(xintercept=0,linetype=1)+
-	    geom_point(aes(x=x1, y=y1,color=Regime),size=0.4,arrow=arrow(length = unit(0.2, "cm")))+
+	    geom_point(aes(x=x1, y=y1,color=Regime),size=0.4)+
 	    theme(
 	      legend.position="bottom",
 	      panel.border = element_rect(linetype = "solid", fill = NA),
