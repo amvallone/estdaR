@@ -4,12 +4,12 @@
 #' @title Mutivariable and univariable Geary's C statistic
 #' @description Compute the univariable Anselin(1995) and multivarible Anselin(2017) Geary's C statistic
 #'
-#' @param x a ventor, matrix or data frame contening the variables and spatial units
+#' @param x a ventor, matrix or data frame containing the variables and spatial units
 #' @param W a \code{listw} object
-#' @param nsim number of random permutation used to the compute the pseudo p value. By default it is NULL
+#' @param nsim number of random permutations used to the compute the pseudo p value. By default it is NULL
 #' @param type a character indicating the Geary's C to be compute. If it is set as "uni" the standart Geary's C statistic is calulated. Set type as "multi" to cumpute the multivariable Geary's C.
 #' @param nbcom number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set aas the number of spatial unit to use.
-#' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
+#' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more information.
 #' @details later...
 #' @return a data frame (more explanation in Details later)
 #' @references

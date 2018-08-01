@@ -6,7 +6,7 @@
 #' @title  Markov for Local Indicators of Spatial Association
 #' @description Compute the  Markov transition matrix for Local Indicators of Spatial Association
 #'
-#' @param x numerical matrix of n spatial unit ans t time periods
+#' @param x numerical matrix of n spatial unit and t time periods
 #' @param W an objet of listw class.
 #' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
 #' @details For later...
