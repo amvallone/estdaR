@@ -4,20 +4,21 @@
 \alias{geary}
 \title{Mutivariable and univariable Geary's C statistic}
 \usage{
-geary(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours), ...)
+geary(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
+  ...)
 }
 \arguments{
-\item{x}{a ventor, matrix or data frame contening the variables and spatial units}
+\item{x}{a ventor, matrix or data frame containing the variables and spatial units}
 
 \item{W}{a \code{listw} object}
 
-\item{nsim}{number of random permutation used to the compute the pseudo p value. By default it is NULL}
+\item{nsim}{number of random permutations used to the compute the pseudo p value. By default it is NULL}
 
 \item{type}{a character indicating the Geary's C to be compute. If it is set as "uni" the standart Geary's C statistic is calulated. Set type as "multi" to cumpute the multivariable Geary's C.}
 
 \item{nbcom}{number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set aas the number of spatial unit to use.}
 
-\item{...}{other argument to \code{quad} function. See \code{\link{quad}} for more infomation.}
+\item{...}{other argument to \code{quad} function. See \code{\link{quad}} for more information.}
 }
 \value{
 a data frame (more explanation in Details later)
@@ -32,9 +33,9 @@ later...
 data(Guerry)
 w1queen<-nb2listw(poly2nb(Guerry))
 pcc <- cbind(Guerry$pc1,Guerry$pc2)
-e1 <- geary(Guerry$pc1,w1queen,nsim=999)
+\dontrun{e1 <- geary(Guerry$pc1,w1queen,nsim=999)
 e2 <- geary(pcc,w1queen,nsim=999)
-e3 <- geary(pcc,w1queen,type="multi",nsim=999)
+e3 <- geary(pcc,w1queen,type="multi",nsim=999)}
 }
 \references{
 Anselin, L. (1995). Local Indicators of Spatial Association—LISA. Geographical Analysis, 27(2), 93–115. \url{https://doi.org/10.1111/j.1538-4632.1995.tb00338.x}

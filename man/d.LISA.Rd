@@ -4,17 +4,17 @@
 \alias{d.LISA}
 \title{Directional LISA}
 \usage{
-d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE, nsim = NULL,
-  arrow = TRUE, only = NULL)
+d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE,
+  nsim = NULL, arrow = TRUE, only = NULL)
 }
 \arguments{
-\item{x0}{a vector conatining the variale at initial period of analyis}
+\item{x0}{a vector containing the variable at initial period of analysis}
 
-\item{x1}{a vector conatining the variale at final period of analyis}
+\item{x1}{a vector containing the variable at final period of analysis}
 
-\item{W}{an objecto of class \code{listw}}
+\item{W}{an object of class \code{listw}}
 
-\item{Regime}{a numerci vector contaning the regime to the sptail unit belongs}
+\item{Regime}{a numeric vector containing the regime to the spatial unit belongs}
 
 \item{k}{a scalar in c(4,8) indicating number of circular sectors in rose diagram, by default it is set as 8}
 
@@ -28,12 +28,12 @@ d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE, nsim = NULL,
 }
 \value{
 a list contaning \describe{
-    \item{"Lisa"}{A vector scatterplot showing the Directinal co-movent of a spatial unit and its neighbors}
+    \item{"Lisa"}{A vector scatterplot showing the Directinal co-movement of a spatial unit and its neighbors}
     \item{"rose"}{A rose diagram of the LISA}
     \item{"p.rose"}{pseudo p-values of the direction in the rose diagram. Only available when nsimm is not NULL}
     \item{"data"}{a data frame contening the data used for the lisa scatterplot}
-    \item{"counts"}{a data frame conating the information used for the rose diagram}
-    \item{"p.value"}{a data frame contaning the information used in the pseudo p-value graph. ONly available when nsim is not NULL}
+    \item{"counts"}{a data frame containing the information used for the rose diagram}
+    \item{"p.value"}{a data frame containing the information used in the pseudo p-value graph. Only available when nsim is not NULL}
  }
 }
 \description{

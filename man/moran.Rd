@@ -4,7 +4,8 @@
 \alias{moran}
 \title{Univariable and Bivariable Local Moran's I}
 \usage{
-moran(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours), ...)
+moran(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
+  ...)
 }
 \arguments{
 \item{x}{a ventor, matrix or data frame contening the variables and spatial units}
@@ -32,8 +33,8 @@ later...
 data(Guerry)
 w1queen<-nb2listw(poly2nb(Guerry))
 pcc <- cbind(Guerry$pc1,Guerry$pc2)
-e4 <- moran(Guerry$pc1,w1queen,nsim=999)
-e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)
+\dontrun{ e4 <- moran(Guerry$pc1,w1queen,nsim=999)
+e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)}
 
 }
 \references{

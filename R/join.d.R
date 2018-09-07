@@ -22,6 +22,7 @@
 #'
 #' @export
 
+
 join.d <- function(x,W){
 	t<-dim(x)[2L]
   n<-dim(x)[1L]

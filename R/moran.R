@@ -20,8 +20,8 @@
 #' data(Guerry)
 #' w1queen<-nb2listw(poly2nb(Guerry))
 #' pcc <- cbind(Guerry$pc1,Guerry$pc2)
-#' e4 <- moran(Guerry$pc1,w1queen,nsim=999)
-#' e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)
+#'\dontrun{ e4 <- moran(Guerry$pc1,w1queen,nsim=999)
+#' e6 <- moran(pcc,w1queen,type="multi",nsim=999,geoda=FALSE)}
 #'
 #' @export
 

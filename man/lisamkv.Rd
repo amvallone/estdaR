@@ -7,7 +7,7 @@
 lisamkv(x, W, ...)
 }
 \arguments{
-\item{x}{numerical matrix of n spatial unit ans t time periods}
+\item{x}{numerical matrix of n spatial unit and t time periods}
 
 \item{W}{an objet of listw class.}
 

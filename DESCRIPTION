@@ -8,7 +8,7 @@ Authors@R: c(person("Andres", "Vallone", email = "avallone@ucn.cl", role = c("au
   )
 Description: Package to performe ESTDA analysis.
 Depends:
-  R (>= 3.4.3),
+  R (>= 3.4),
   spdep,
     ggplot2
 License: GPL-3
@@ -17,5 +17,6 @@ LazyData: true
 Imports: rgdal,
     gridExtra,
     RColorBrewer,
-    sp
-RoxygenNote: 6.0.1
+    sp,
+    NORMT3
+RoxygenNote: 6.1.0
