@@ -2,7 +2,7 @@
 #' @rdname sp.tau
 #'
 #' @title Global Indicators of Mobility Association (GIMA)
-#' @description Compute the Global Indicators of Mobility Association index Rey(2016)
+#' @description Compute the Global Indicators of Mobility Association index Rey (2016)
 #'
 #' @param x rank variable
 #' @param y rank variable.

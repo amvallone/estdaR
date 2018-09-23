@@ -2,7 +2,7 @@
 #' @rdname guery
 #'
 #' @title Mutivariable and univariable Geary's C statistic
-#' @description Compute the univariable Anselin(1995) and multivarible Anselin(2017) Geary's C statistic
+#' @description Compute the univariable Anselin (1995) and multivarible Anselin (2017) Geary's C statistic
 #'
 #' @param x a ventor, matrix or data frame containing the variables and spatial units
 #' @param W a \code{listw} object

@@ -5,11 +5,11 @@
 #' @description Compute the Univariable (Anselin,1995) and Bivariable (cite??) Local Moran's I
 #'
 #'
-#' @param x a ventor, matrix or data frame contening the variables and spatial units
+#' @param x a vector, matrix or data frame containing the variables and spatial units
 #' @param W a \code{listw} object
 #' @param nsim number of random permutation used to the compute the pseudo p value. By default it is NULL
-#' @param type a character indicating the local Moran's I to be compute. If it is set as "uni" the standart local Moran's I statistic is calulated. Set type as "multi" to cumpute the bivariable local Moran's I.
-#' @param nbcom number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set aas the number of spatial unit to use.
+#' @param type a character indicating the local Moran's I to be compute. If it is set as "uni" the standard local Moran's I statistic is calulated. Set type as "multi" to cumpute the bivariable local Moran's I.
+#' @param nbcom number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set as the number of spatial unit to use.
 #' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
 #' @details later...
 #' @return a data frame or a list of data frames (more explanation in Details later)

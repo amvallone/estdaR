@@ -6,12 +6,12 @@
 #' @title  Markov for Local Indicators of Spatial Association
 #' @description Compute the  Markov transition matrix for Local Indicators of Spatial Association
 #'
-#' @param x numerical matrix of n spatial unit and t time periods
+#' @param x numerical matrix of n spatial units and t time periods
 #' @param W an objet of listw class.
 #' @param ... other argument to \code{quad} function. See \code{\link{quad}} for more infomation.
 #' @details For later...
 #'
-#' @return a list cantaning three object
+#' @return a list cantaining three objects
 #' \describe{
 #'   \item{move}{a data frame indicating which type of LISA transition occurred}
 #'   \item{lisamatrix}{markov LISA transition matrix}
@@ -27,7 +27,7 @@
 #' @export
 
 lisamkv<-function(x,W,...){
-  if(is.null(dim(x))==TRUE) stop("You must provide a matrix conteaining n spatial unita and t  time periods")
+  if(is.null(dim(x))==TRUE) stop("You must provide a matrix containing n spatial units and t time periods")
   t<-dim(x)[2L]
   n<-dim(x)[1L]
   if(t<2L) stop("At least you must provide two time periods")

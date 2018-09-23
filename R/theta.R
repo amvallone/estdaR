@@ -3,7 +3,7 @@
 #'
 #' @title Rank Depcompostion index
 #'
-#' @description Compute the Regime mobility measure Rey(2004)
+#' @description Compute the Regime mobility measure Rey (2004)
 #'
 #'
 #' @param x a \eqn{nxk} matrix with \eqn{l \geq 2} successive columns of a variable are later moments in time
