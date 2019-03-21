@@ -59,11 +59,12 @@ sp.tau <- function(x,y,W,perm=NULL){
 			rids <- sample(ids)
 			taus[r] <- int.tau(x[rids],y[rids],W)[1]
 		}
+		ave <- mean(taus)
 		above <- taus >= res[1]
 		larger <- sum(above)
 		psim <- (larger + 1)/ (perm + 1)
 		if (psim > 0.5) psim <- (perm - larger +1) / (perm + 1)
-		out <- c("sp.tau"=res["tau_g"],"pval"=psim,"sp.Concordant"=res["gc"],"sp.Discordant"=res["gd"],f.step)
+		out <- c("sp.tau"=res["tau_g"],"pval"=psim,"sp.Concordant"=res["gc"],"sp.Discordant"=res["gd"],f.step, "average" = ave)
 	} else {
 		c("sp.tau"=res["tau_g"],"sp.Concordant"=res["gc"],"sp.Discordant"=res["gd"],f.step)
 	}
