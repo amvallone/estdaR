@@ -11,6 +11,6 @@ The package is still on a development stage. Please, feel free to contribute to 
 
 Find applications with estdaR in the following papers:
 
-Vallone, A., Chasco, C. Spatiotemporal methods for analysis of urban system dynamics: an application to Chile. Ann Reg Sci 64, 421–454 (2020). https://doi.org/10.1007/s00168-019-00960-9
+Vallone, A. & Chasco, C. (2020) Spatiotemporal methods for analysis of urban system dynamics: an application to Chile. Annals of Regional Science 64, 421–454. https://doi.org/10.1007/s00168-019-00960-9
 
-Kassoum Ayouba, Julie Le Gallo & Andrés Vallone (2020) Beyond GDP: an analysis of the socio-economic diversity of European regions, Applied Economics, 52:9, 1010-1029, https://doi.org/10.1080/00036846.2019.1646885
+Ayouba, K., Le Gallo, J. & Vallone, A. (2020) Beyond GDP: an analysis of the socio-economic diversity of European regions, Applied Economics, 52:9, 1010-1029. https://doi.org/10.1080/00036846.2019.1646885
