@@ -9,5 +9,8 @@ devtools::install_github("amvallone/estdaR")
 ```
 The package is still on a development stage. Please, feel free to contribute to improving it. In case of errors, please, open a new issue.
 
-Find an application with estdaR in the paper:
+Find applications with estdaR in the following papers:
+
 Vallone, A., Chasco, C. Spatiotemporal methods for analysis of urban system dynamics: an application to Chile. Ann Reg Sci 64, 421–454 (2020). https://doi.org/10.1007/s00168-019-00960-9
+
+Kassoum Ayouba, Julie Le Gallo & Andrés Vallone (2020) Beyond GDP: an analysis of the socio-economic diversity of European regions, Applied Economics, 52:9, 1010-1029, DOI: 10.1080/00036846.2019.1646885
