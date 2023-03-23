@@ -10,7 +10,7 @@
 #' @param fixed logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data
 #'
 #' @details for later..
-#' @return a list contaning the markov's trantiiona matrix and the markov's transition probability matrix
+#' @return a list contaning the markov's trantiional matrix and the markov's transition probability matrix
 #'
 #' @references Rey, S.J. (2001) “Spatial empirics for economic growth and convergence”, 34 Geographical Analysis, 33, 195-214.
 #'

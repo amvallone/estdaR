@@ -18,5 +18,5 @@ Imports: rgdal,
     gridExtra,
     RColorBrewer,
     sp,
-    NORMT3
-RoxygenNote: 6.1.0
+    gasfluxes
+RoxygenNote: 6.1.1

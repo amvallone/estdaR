@@ -16,7 +16,7 @@ sp.mkv(m, W, classes = 5, fixed = TRUE)
 \item{fixed}{logical, if it is TRUE the data are pooled over space and time and the quintiles calculated for the pooled data}
 }
 \value{
-a list contaning the markov's trantiiona matrix and the markov's transition probability matrix
+a list contaning the markov's trantiional matrix and the markov's transition probability matrix
 }
 \description{
 Compute the Spatial Markov transition probability matrix (Rey,2001)

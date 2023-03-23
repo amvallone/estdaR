@@ -17,7 +17,7 @@ theta(x, Regime, nsim = NULL)
 A data frame
 }
 \description{
-Compute the Regime mobility measure Rey(2004)
+Compute the Regime mobility measure Rey (2004)
 }
 \details{
 For sequence of time periods Theta measures the extent to which rank changes for a variable measured over n locations are in the same direction within mutually exclusive and exhaustive partitions (regimes) of the n locations.

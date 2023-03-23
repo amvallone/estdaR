@@ -8,15 +8,15 @@ moran(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
   ...)
 }
 \arguments{
-\item{x}{a ventor, matrix or data frame contening the variables and spatial units}
+\item{x}{a vector, matrix or data frame containing the variables and spatial units}
 
 \item{W}{a \code{listw} object}
 
 \item{nsim}{number of random permutation used to the compute the pseudo p value. By default it is NULL}
 
-\item{type}{a character indicating the local Moran's I to be compute. If it is set as "uni" the standart local Moran's I statistic is calulated. Set type as "multi" to cumpute the bivariable local Moran's I.}
+\item{type}{a character indicating the local Moran's I to be compute. If it is set as "uni" the standard local Moran's I statistic is calulated. Set type as "multi" to cumpute the bivariable local Moran's I.}
 
-\item{nbcom}{number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set aas the number of spatial unit to use.}
+\item{nbcom}{number of comparisons use in the Bonferroni multiple comparisons correction. By default it is set as the number of spatial unit to use.}
 
 \item{...}{other argument to \code{quad} function. See \code{\link{quad}} for more infomation.}
 }

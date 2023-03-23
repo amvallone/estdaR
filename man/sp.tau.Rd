@@ -30,7 +30,7 @@ a vector coantaning \itemize{
    }
 }
 \description{
-Compute the Global Indicators of Mobility Association index Rey(2016)
+Compute the Global Indicators of Mobility Association index Rey (2016)
 }
 \details{
 The Global Indicators of Mobility Association (GIMA) is based on the Spatial Tau indicator (Rey,2004). The implementation is a two step algorith based on the Rey's implementation (Rey,2014)

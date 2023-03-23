@@ -1,4 +1,4 @@
-#' @import NORMT3
+#' @import gasfluxes
 #' @name tau
 #' @rdname tau
 #' @title Kendall rank correlation coefficient
@@ -113,7 +113,7 @@ tau <- function(x,y){
     tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))
     v <- (4 * n + 10) / (9 * n * (n - 1))
     z <- tau / sqrt(v)
-    pval <- NORMT3::erfc(abs(z/1.4142136))
+    pval <- gasfluxes::erfc(abs(z/1.4142136))
     out <- c("Tau"=tau,"pval"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)
     return(Re(out))
 }

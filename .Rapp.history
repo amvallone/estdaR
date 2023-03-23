@@ -1,553 +1,2398 @@
-aut.navarra[1]
-autnomos <- do.call(rbind.data.frame,aut.navarra)
-dim(autonomos)
-dim(autnomos)
-head(autnomos)
-openxlsx::wirte.xlsx(autnomos,"autnomos-navarra.xlsx")
-openxlsx::write.xlsx(autnomos,"autnomos-navarra.xlsx")
-autonomos <- autnomos
-save(autonomos,file="aut-navarra.rdata")
+data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	#################################################################
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount#
+    	BCount <- (NumEqual-1) - ECount#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    	cat(i,"Dis",Discordant,"\n")#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))
+data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	#################################################################
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount#
+    	BCount <- (NumEqual-1) - ECount#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    	cat(i,"CCount",CCount,"\n")#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))
+data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	#################################################################
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount#
+    	BCount <- (NumEqual-1) - ECount#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    	cat(i,"CCount",CCount,"\n")#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))
+tau
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	#################################################################
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount#
+    	BCount <- (NumEqual-1) - ECount#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    	cat(i,"CCount",CCount,"\n")#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    out <- list(tau,ExtraY,ExtraX,Concordant,Discordant,perm,ld,li,ri)#
+    print(tau)#
+    return(out)#
+}
+tau(1:6,1:6)
 ls()
-navarra
-library(SataSpa)
-library(DataSpa)
-pob.ind(206,"Melilla")
-pob.ind(2006,"Melilla")
-paro(2006,"Melilla")
-paro(2006,"junio","Melilla")
-dirc<-paste(getwd(),"/data_paro/",sep="")
-dirc
-dir(dirc)
-abre<-paste(dirc,file1,sep="")
-abre<-paste(dirc,"paro_MUNI_MELILLA_0716.xls",sep="")
-abre
-abre<-paste(dirc,file1,sep="")
-datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))
-datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
-datos
-datos<-apply(datos,2,as.character)
-datos
-datos<-datos[-dim(datos)[1],]
-datos
-p<-which(datos[,1]=="MUNICIPIOS")+1
-p
-abre<-paste(dirc,"paro_MUNI_MELILLA_0706.xls",sep="")
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))
-datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
-datos<-apply(datos,2,as.character)
-p<-which(datos[,1]=="MUNICIPIOS")+1
-p
-datos
-datos<-datos[-dim(datos)[1],]
-p<-which(datos[,1]=="MUNICIPIOS")+1#
-		f<-dim(datos)[1]
-datos
-datos<-datos[p:f,]#
-		datos<-cbind(datos[,1],datos)
-datos
-datos<-datos[-1,]
-cod<-datos[,1]#
-		n.m<-datos[,2]
-datos
-datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")
-datos
-abre
-open<-paste(dirc,file,sep="")
-dirc
-dir(dirc)
-open<-paste(dirc,"paro_MUNI_MELILLA_0716.xls",sep="")
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))#
-		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
-		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
-		datos<-apply(datos,2,as.character)#
-		idn<-apply(idn,2,as.character)#
-		datos<-datos[-dim(datos)[1],]#
-		idn<-idn[-dim(idn)[1],]#
-		p<-which(datos[,1]=="MUNICIPIOS")+1#
-		f<-dim(datos)[1]#
-		pi<-max(which(is.na(idn[,1])))+1#
-		fi<-dim(idn)[1]#
-		datos<-datos[p:f,]#
-		datos<-cbind(datos[,1],datos)#
-		v<-intersect(datos[,1],idn[,2])#
-		for( k in 1:length(v)){#
-			if(length(which(idn[,2]==v[k]))>1){#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
-			}else{#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
-			}#
-		}#
-		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
-			cero<-rep(0,dim(datos)[1])#
-			datos[,1]<-paste(cero,datos[,1],sep="")#
-		}#
-		datos<-datos[-1,]#
-		cod<-datos[,1]#
-		n.m<-datos[,2]
-library(stringi)
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))#
-		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
-		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
-		datos<-apply(datos,2,as.character)#
-		idn<-apply(idn,2,as.character)#
-		datos<-datos[-dim(datos)[1],]#
-		idn<-idn[-dim(idn)[1],]#
-		p<-which(datos[,1]=="MUNICIPIOS")+1#
-		f<-dim(datos)[1]#
-		pi<-max(which(is.na(idn[,1])))+1#
-		fi<-dim(idn)[1]#
-		datos<-datos[p:f,]#
-		datos<-cbind(datos[,1],datos)#
-		v<-intersect(datos[,1],idn[,2])#
-		for( k in 1:length(v)){#
-			if(length(which(idn[,2]==v[k]))>1){#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
-			}else{#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
-			}#
-		}#
-		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
-			cero<-rep(0,dim(datos)[1])#
-			datos[,1]<-paste(cero,datos[,1],sep="")#
-		}#
-		datos<-datos[-1,]#
-		cod<-datos[,1]#
-		n.m<-datos[,2]
-datos
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))#
-		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
-		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
-		datos<-apply(datos,2,as.character)#
-		idn<-apply(idn,2,as.character)#
-		datos<-datos[-dim(datos)[1],]#
-		idn<-idn[-dim(idn)[1],]#
-		p<-which(datos[,1]=="MUNICIPIOS")+1#
-		f<-dim(datos)[1]#
-		pi<-max(which(is.na(idn[,1])))+1#
-		fi<-dim(idn)[1]#
-		datos<-datos[p:f,]#
-		datos<-cbind(datos[,1],datos)#
-		v<-intersect(datos[,1],idn[,2])#
-		for( k in 1:length(v)){#
-			if(length(which(idn[,2]==v[k]))>1){#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
-			}else{#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
-			}#
-		}#
-		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
-			cero<-rep(0,dim(datos)[1])#
-			datos[,1]<-paste(cero,datos[,1],sep="")#
-		}
-datos
-datos<-datos[-1,
-]
-dim(datos)
-if(is.null(dim(datos))){datos <- as.matrix(datos)}
-dim(datos)
-if(is.null(dim(datos))){datos <- t(as.matrix(datos))}
-datos
-if(is.null(dim(datos))){datos <- matrix(datos,nrow=1)}
-datos
-wb <- loadWorkbook(abre)#
-		sh <- getSheets(wb)#
-		hoja <- agrep("PARO",names(sh))#
-		datos<-xlsx::read.xlsx(abre,hoja, encoding ="UTF-8")#
-		idn<-xlsx::read.xlsx(open,1,colIndex=c(1:3), encoding ="UTF-8")#
-		datos<-apply(datos,2,as.character)#
-		idn<-apply(idn,2,as.character)#
-		datos<-datos[-dim(datos)[1],]#
-		idn<-idn[-dim(idn)[1],]#
-		p<-which(datos[,1]=="MUNICIPIOS")+1#
-		f<-dim(datos)[1]#
-		pi<-max(which(is.na(idn[,1])))+1#
-		fi<-dim(idn)[1]#
-		datos<-datos[p:f,]#
-		datos<-cbind(datos[,1],datos)#
-		v<-intersect(datos[,1],idn[,2])#
-		for( k in 1:length(v)){#
-			if(length(which(idn[,2]==v[k]))>1){#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k])[2],1]#
-			}else{#
-				datos[which(datos[,2]==v[k]),1]<-idn[which(idn[,2]==v[k]),1]#
-			}#
-		}#
-		if(stri_count(datos[min(which(!is.na(datos[,1]))),1],regex="[[:number:]]")==4){#
-			cero<-rep(0,dim(datos)[1])#
-			datos[,1]<-paste(cero,datos[,1],sep="")#
-		}#
-		datos<-datos[-1,]
-class(datos)
-length(datos)
-matrix(datos)
-t(matrix(datos))
-if(is.null(dim(datos))){datos <- t(matrix(datos ))}
-datos
-cod<-datos[,1]
-cod
-library(rvest)
-read:html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-read_table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-html_table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-html_table(read_hatml("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))
-html_table(read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))
-html_table(read_html("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv"))->s
-s
-open("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-read.table("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-library(readxl)
-read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-install.packages("readr")
-library(readr)
-read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-load("/Users/andresvallone/Dropbox/FIC CBC 2 2018/Calculo de indices/Data2/imp.RData")
-get.Comtrade <- function(#
-                          maxrec=50000#
-                         ,type="C"#
-                         ,freq="A"#
-                         ,px="HS"#
-                         ,ps="now"#
-                         ,r#
-                         ,p#
-                         ,rg="all"#
-                         ,cc="TOTAL"#
-                         ,fmt="csv"#
-)#
-{#
-  string<- paste(url="http://comtrade.un.org/api/get?"#
-                 ,"max=",maxrec,"&" #maximum no. of records returned#
-                 ,"type=",type,"&" #type of trade (c=commodities)#
-                 ,"freq=",freq,"&" #frequency#
-                 ,"px=",px,"&" #classification#
-                 ,"ps=",ps,"&" #time period#
-                 ,"r=",r,"&" #reporting area#
-                 ,"p=",p,"&" #partner country#
-                 ,"rg=",rg,"&" #trade flow#
-                 ,"cc=",cc,"&" #classification code#
-                 ,"fmt=",fmt        #Format#
-                 ,sep = ""#
-  )#
-  if(fmt == "csv") {#
-   # raw.data<- read.csv(string,header=TRUE)#
-    #return(list(validation=NULL, data=raw.data))#
-    #return(raw.data)#
-    return(string)#
-  } else {#
-    if(fmt == "json" ) {#
-      raw.data<- fromJSON(file=string)#
-      data<- raw.data$dataset#
-      validation<- unlist(raw.data$validation, recursive=TRUE)#
-      ndata<- NULL#
-      if(length(data)> 0) {#
-        var.names<- names(data[[1]])#
-        data<- as.data.frame(t( sapply(data,rbind)))#
-        ndata<- NULL#
-        for(i in 1:ncol(data)){#
-          data[sapply(data[,i],is.null),i]<- NA#
-          ndata<- cbind(ndata, unlist(data[,i]))#
-        }#
-        ndata<- as.data.frame(ndata)#
-        colnames(ndata)<- var.names#
-      }#
-      #return(list(validation=validation,data =ndata))#
-      return(ndata)#
+rm(list=ls())
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    	cat(i,"CCount",CCount,"\n")#
     }#
-  }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    out <- list(tau,ExtraY,ExtraX,Concordant,Discordant,perm,ld,li,ri)#
+    print(tau)#
+    return(out)#
 }
-ask(year[1],c.pai[1],prod[1])
-ll <- lapply(seq_len(200),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
-ll <- unlist(ll)
-ll[1:10]
-read_csv2("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-read_csv("http://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2006&r=4&p=0&rg=1&cc=0202&fmt=csv")
-library(snowfall)#
-sfInit(parallel=TRUE,cpu=3)#
-sfExportAll()#
-sfLibrary(readr)#
-#
-l_data<-sfClusterApplyLB(ll,read_csv)#
-#
-sfStop()
-length(l_data)
-read_csv(ll[1])
-read_csv(ll[2])
-read_csv(ll[20])
-read_csv(ll[21])
-read_csv(ll[23])
-read_csv(ll[195])
-l_data <- list(seq_along(prod))
-length(l_data)
-l:data
-l_data
-l_data <- list()#
-for (i in seq_alon(prod)){#
-	l:data[[i]] <- read_csv(ll[i])#
-	Sys.sleep(3)#
-}
-l_data <- list()#
-for (i in seq_along(prod)){#
-	l:data[[i]] <- read_csv(ll[i])#
-	Sys.sleep(3)#
-}
-l_data <- list()#
-for (i in seq_along(prod)){#
-	l_data[[i]] <- read_csv(ll[i])#
-	Sys.sleep(3)#
-}
-length(l_data)
-for (i in 88:length(prod)){#
-	l_data[[i]] <- read_csv(ll[i])#
-	Sys.sleep(3)#
-}
-l_dara <- lapply(ll,read.csv)
-read.csv(ll[1])
-read.csv(ll[195])
-195+195
-length(prod)
-length(prod)/195
-length(prod)/195/10
-ll <- lapply(seq_along(prod),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
-cortes <- split(ll, ceiling(seq_along(prod)/195))
-cortes[1]
-class(corte[[1]])
-class(cortes[[1]])
-c <- llaply(cortes,unlist)
-c <- lapply(cortes,unlist)
-c[[1]]
-cortes <- lapply(split(ll, ceiling(seq_along(prod)/195)),unlist)
-cortes[1]
-lapply(cortes[[1]],read.csv)->p
-p
-length/cortes
-length(cortes)
-119/24
-datos <- lapply(cortes[[1]],read.csv) # remplaza "#" por un numero, la PC 1 el 1, la PC 2 el " y asi...
-ll[1]
-load("/Users/andresvallone/Dropbox/FIC CBC 2 2018/Calculo de indices/Data2/imp.RData")
-data <- list()#
-k <- 0#
-b <- 1#
-bar <- txtProgressBar(min = 0, max =length(prod), style = 3)#
-#
-for(j in b:length(prod)){#
-	data[[j]] <- read.csv(ll[[j]])#
-	Sys.sleep(1)#
-	setTxtProgressBar(bar,j)#
-	k <- k+1#
-	if(k==100){#
-		Sys.sleep(3600)#
-		k <- 0#
-	}#
-}
-get.Comtrade <- function(#
-                          maxrec=50000#
-                         ,type="C"#
-                         ,freq="A"#
-                         ,px="HS"#
-                         ,ps="now"#
-                         ,r#
-                         ,p#
-                         ,rg="all"#
-                         ,cc="TOTAL"#
-                         ,fmt="csv"#
-)#
-{#
-  string<- paste(url="http://comtrade.un.org/api/get?"#
-                 ,"max=",maxrec,"&" #maximum no. of records returned#
-                 ,"type=",type,"&" #type of trade (c=commodities)#
-                 ,"freq=",freq,"&" #frequency#
-                 ,"px=",px,"&" #classification#
-                 ,"ps=",ps,"&" #time period#
-                 ,"r=",r,"&" #reporting area#
-                 ,"p=",p,"&" #partner country#
-                 ,"rg=",rg,"&" #trade flow#
-                 ,"cc=",cc,"&" #classification code#
-                 ,"fmt=",fmt        #Format#
-                 ,sep = ""#
-  )#
-  if(fmt == "csv") {#
-    #raw.data<- read.csv(string,header=TRUE)#
-    #return(list(validation=NULL, data=raw.data))#
-    return(string)#
-  } else {#
-    if(fmt == "json" ) {#
-      raw.data<- fromJSON(file=string)#
-      data<- raw.data$dataset#
-      validation<- unlist(raw.data$validation, recursive=TRUE)#
-      ndata<- NULL#
-      if(length(data)> 0) {#
-        var.names<- names(data[[1]])#
-        data<- as.data.frame(t( sapply(data,rbind)))#
-        ndata<- NULL#
-        for(i in 1:ncol(data)){#
-          data[sapply(data[,i],is.null),i]<- NA#
-          ndata<- cbind(ndata, unlist(data[,i]))#
-        }#
-        ndata<- as.data.frame(ndata)#
-        colnames(ndata)<- var.names#
-      }#
-      #return(list(validation=validation,data =ndata))#
-      return(string)#
+tau(1:6,1:6)
+a<-c(12,2,1,,12,2)
+a<-c(12,2,1,12,2)
+b<-c(1,4,7,1,0)
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
     }#
-  }#
-}#
-#
-#datos <- openxlsx::read.xlsx("falllas.xlsx")#
-#pai <- openxlsx::read.xlsx("ccountry.xlsx")#
-#
-#pai.c <- unique(datos[,1])
-ask<-function(y,pa,c,...){#
-	tryCatch(#
-		get.Comtrade(ps=y,r=pa,rg=1,cc=c,p=0,...),#
-		error=function(e){e}#
-	)#
-}#
-#
-ll <- lapply(seq_along(prod),function(x) (ask(y=year[x],pa=c.pai[x],c=prod[x])))
-data <- list()#
-k <- 0#
-b <- 1#
-bar <- txtProgressBar(min = 0, max =length(prod), style = 3)#
-#
-for(j in b:length(prod)){#
-	data[[j]] <- read.csv(ll[[j]])#
-	Sys.sleep(1)#
-	setTxtProgressBar(bar,j)#
-	k <- k+1#
-	if(k==100){#
-		Sys.sleep(3600)#
-		k <- 0#
-	}#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    out <- list(tau,ExtraY,ExtraX,Concordant,Discordant,perm,ld,li,ri)#
+    print(tau)#
+    return(out)#
 }
-length(data)
-install.packages("meme")
-library(meme)
-plot(create_meme("http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot","En serio...","que hoy no podemos??"))
-u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
-plot(grumpy <- create_meme(u, "", "R-help"))
-library(meme)
-u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
-plot(grumpy <- create_meme(u, "", "R-help"))
-devtools::install_github("leeper/meme")
-library(meme)
-u <- "http://img4.wikia.nocookie.net/__cb20131009153844/villains/images/f/f6/Grumpy_Cat.jpg"#
-plot(grumpy <- create_meme(u, "", "R-help"))
-plot(create_meme("http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot","En serio...","que hoy no podemos??"))
-templates <- get_templates("memecaptain")
-u
-browse(u)
-u <- "http://www.news.ucsb.edu/sites/www.news.ucsb.edu/files/styles/article_horizontal/public/images/2014/angry%20face.jpg?itok=xdzforot"
-plot(grumpy <- create_meme(u, "", "R-help"))
+tau(a.b)
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    #out <- list(tau,ExtraY,ExtraX,Concordant,Discordant,perm,ld,li,ri)#
+    out <- c("Tau"=tau,"Concordant"=COncordant,"Discordant"=Discordant)#
+    print(tau)#
+    return(out)#
+}
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    #out <- list(tau,ExtraY,ExtraX,Concordant,Discordant,perm,ld,li,ri)#
+    out <- c("Tau"=tau,"Concordant"=Concordant,"Discordant"=Discordant)#
+    print(tau)#
+    return(out)#
+}
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    out <- c("Tau"=tau,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tau(a,b)
+tau(1:6,1:6)
+tau(1:6,6:1)
+pnorm(1.96)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    v <- (4 * n + 10) / (9 * n * (n - 1))#
+    z <- tau / sqrt(v)#
+    pval <- 1-pnorm(abs(z/1.4142136))#
+    out <- c("Tau"=tau,"pavl"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    v <- (4 * n + 10) / (9 * n * (n - 1))#
+    z <- tau / sqrt(v)#
+    #pval <- 1-pnorm(abs(z/1.4142136))#
+    pval <- 1-pnorm(abs(z))#
+    out <- c("Tau"=tau,"pavl"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tabu(a,b)
+tau(a,b)
+install.package"(NORMT3")
+install.package("NORMT3")
+install.packages("NORMT3")
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    v <- (4 * n + 10) / (9 * n * (n - 1))#
+    z <- tau / sqrt(v)#
+    pval <- NORMT3::efc(abs(z/1.4142136))#
+    out <- c("Tau"=tau,"pavl"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    v <- (4 * n + 10) / (9 * n * (n - 1))#
+    z <- tau / sqrt(v)#
+    pval <- NORMT3::erf(abs(z/1.4142136))#
+    out <- c("Tau"=tau,"pavl"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tau(a,b)
+tau <- function(x,y){#
+	if (length(x)!=length(y)) stop("ambas variables deben tener el mismo tamaño")#
+	n <- length(y)#
+	data <- data.frame("x"=x,"y"=y)#
+	data <- data[order(data$x,data$y),]#
+	perm <- as.numeric(rownames(data))#
+	vals <- y[perm]#
+	ExtraY <- 0#
+    ExtraX <- 0#
+    ACount <- 0#
+    BCount <- 0#
+    CCount <- 0#
+    DCount <- 0#
+    ECount <- 0#
+    DCount <- 0#
+    Concordant <- 0#
+    Discordant <- 0#
+    #left child's id#
+    li <- rep(NA,(n-1))#
+    #right child's id#
+    ri <- rep(NA,(n-1))#
+    # number of left descendants for a node#
+    ld <- rep(0,n)#
+    # number of values equal to value i#
+    nequal <- rep(0,n)#
+    for (i in 2:n){#
+    	NumBefore <- 1#
+    	NumEqual <- 2#
+    	root <- 1#
+    	x0 <- x[perm[(i-1)]]#
+    	y0 <- y[perm[(i-1)]]#
+    	x1 <- x[perm[i]]#
+    	y1 <- y[perm[i]]#
+    	if(x0!=x1){#
+    		DCount <- 0#
+    		ECount <- 1#
+    	} else{#
+    		if(y0 == y1){#
+    			ECount <- ECount +1#
+    		} else {#
+    			DCount <- DCount + ECount#
+    			ECount <- 1#
+    		}#
+    	}#
+    	root <- 1#
+    	inserting <- TRUE#
+    	while(inserting==TRUE){#
+    		current <- y[perm[i]]#
+    		if(current > y[perm[root]]){#
+    			NumBefore <-  NumBefore + 1 + ld[root] + nequal[root]#
+    			if(is.na(ri[root])){#
+    				ri[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- ri[root]#
+    			}#
+    		} else if(current < y[perm[root]]){#
+    			ld[root] <- ld[root]+1#
+    			if(is.na(li[root])){#
+    				li[root] <- i#
+    				inserting <- FALSE#
+    			} else {#
+    				root <- li[root]#
+    			}#
+    		} else if(current == y[perm[root]]){#
+    			NumBefore <- NumBefore + ld[root]#
+    			NumEqual <- NumEqual + nequal[root] +1#
+    			nequal[root] <- nequal[root] + 1#
+    			inserting <- FALSE#
+    		}#
+    	}#
+    	ACount <- (NumBefore-1) - DCount # substracting 1 for index different#
+    	BCount <- (NumEqual-1) - ECount # substracting 1 for index different#
+    	CCount <- i -(ACount + BCount + DCount + ECount - 1)-1 # substracting 1 for index different#
+    	ExtraY <- ExtraY + DCount#
+    	ExtraX <- ExtraX + BCount#
+    	Concordant <- Concordant + ACount#
+    	Discordant <-  Discordant + CCount#
+    }#
+    cd <- Concordant + Discordant#
+    num <- Concordant - Discordant#
+    tau <- num / sqrt((cd + ExtraX) * (cd + ExtraY))#
+    v <- (4 * n + 10) / (9 * n * (n - 1))#
+    z <- tau / sqrt(v)#
+    pval <- NORMT3::erfc(abs(z/1.4142136))#
+    out <- c("Tau"=tau,"pavl"=pval,"Concordant"=Concordant,"Discordant"=Discordant,"ExtraX"=ExtraX,"ExtraY"=ExtraY)#
+    return(out)#
+}
+tau(a,b)
+cor(a,b,type="kendall")
+cor(a,b,method="kendall")
+install.packages("Kendall")
+kendall::kendal(a,b)
+kendall::kendall(a,b)
+Kendall::Kendall(a,b)
+data(boston, package="spData")#
+summary(as.vector(table(boston.c$TOWN)))#
+townaggr <- aggregate(boston.utm, list(town=boston.c$TOWN), mean)#
+block.rel <- graph2nb(relativeneigh(as.matrix(townaggr[,2:3])),#
+as.character(townaggr[,1]), sym=TRUE)#
+block.rel#
+print(is.symmetric.nb(block.rel))#
+plot(block.rel, as.matrix(townaggr[,2:3]))#
+points(boston.utm, pch=18, col="lightgreen")#
+block.nb <- nb2blocknb(block.rel, as.character(boston.c$TOWN))#
+block.nb
+library(spdep)
+data(boston, package="spData")#
+summary(as.vector(table(boston.c$TOWN)))#
+townaggr <- aggregate(boston.utm, list(town=boston.c$TOWN), mean)#
+block.rel <- graph2nb(relativeneigh(as.matrix(townaggr[,2:3])),#
+as.character(townaggr[,1]), sym=TRUE)#
+block.rel#
+print(is.symmetric.nb(block.rel))#
+plot(block.rel, as.matrix(townaggr[,2:3]))#
+points(boston.utm, pch=18, col="lightgreen")#
+block.nb <- nb2blocknb(block.rel, as.character(boston.c$TOWN))#
+block.nb
+block.nb[1]
+length(block.nb)
+names(block.nb)
+class(block.nb)
+summary(block.nb)
+a <- b <- 0
+a
+b
+blok.nb$neigbours
+block.nb$neigbours
+block.nb$neighbours
+block.nb$neighbors
+block.nb$neighbours
+W <- nb2listw(block.nb)
+W$neighbours
+W$neighbours[1]
+se_along(W$neighbours)
+seq_along(W$neighbours)
+c <- W$neighbours[1]
+c
+class(c)
+c <- unlist(c)
+c
+seq_along(c)
+for(i in seq_along(c)){print[c[i]]}
+for(i in seq_along(c)){print(c[i])}
 getwd()
-u <- "http://www.letuswrite.net/wp-content/uploads/2014/11/5490596-crazy-man.jpg"
-plot(grumpy <- create_meme(u, "", "R-help"))
-library(DataSpa)
-pob.tot(2017,"Avila")
-pob.tot(2017,"Avila")->pp
-pp
-dim(pp)
-sum(pp[,3])
-pob.tot(2017,"Madrid")->pp
-pp
 library(devtools)
 load_all()
 data(us48)#
-w1queen <- nb2listw(poly2nb(us48))#
-t0<-us48$X1969/mean(us48$X1969)#
-t1 <-us48$X2009/mean(us48$X2009)#
-Regime <-us48$SUB_REGION
-ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,arrow=FALSE)
-q1 <- quad(t0,w1queen)
-HH <-which(q1==1) #only HH on the initial period#
-#
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)->c
-c$data
-length(HH)
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,arrow=FALSE,only=HH)->c
-d.LISA(t0,t1,w1queen,Regime,k=4,nsim=999,arrow=FALSE,only=HH)->c
-a<-c$rose
-a
-c$data
-c$counts
-a+coord_ploar(start=pi)
-a+coord_polar(start=pi)
-a+coord_polar(start=pi/4)
-a+coord_polar(start=pi/8)
-a+coord_polar(start=pi/10)
-a+coord_polar(start=pi/12)
-a+coord_polar(start=pi/15)
-a+coord_polar(start=pi/2)
-a+coord_polar(start=-pi/2)
-a+coord_polar(start=pi/20)
-a+coord_polar(start=pi/40)
-a+coord_polar(start=pi/50)
-a+coord_polar(start=pi/60)
-a+coord_polar(start=pi/80)
-a+coord_polar(start=pi/90)
-a+coord_polar(start=0)
-a+coord_polar(start=-0)
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)->c
-a<-c$rose
-a
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
-k<-8
-step <- (2*pi)/k#
-	breaks <- seq(0,2*pi,step)#
-	lmt <- (breaks * 180)/pi # rad to deg#
-	symb<-c()#
-	for (i in seq_len(length(lmt)-1)){#
-		symb <- c(symb, paste(lmt[i],lmt[i+1],sep="-"))#
-	}
-symb
-lim=c(symb[1],symb[length(lmt):2]))
-lim=c(symb[1],symb[length(lmt):2])
-kim
-lim
-lmt
-lim=c(symb[1],symb[length(sym):2])
-lim=c(symb[1],symb[length(symb):2])
-lim
-a+scale_x_discrete(limit=lim)
-load_all()
-d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999,only=HH)
-ok <- d.LISA(t0,t1,w1queen,Regime,k=8,nsim=999)
-dataplot <- ok$data
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.3) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.05) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.01) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.03) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.003) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.001) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.3) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.3)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.3)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb) + geom_rect(aes(xmin = 0, xmax = 2, ymin = -Inf, ymax = Inf), fill = "red", alpha = 0.003) + geom_rect(aes(xmin = 2, xmax = 4, ymin = -Inf, ymax = Inf), fill = "blue", alpha = 0.003) + geom_rect(aes(xmin = 4, xmax = 6, ymin = -Inf, ymax = Inf), fill = "green", alpha = 0.003)+ geom_rect(aes(xmin = 6, xmax = 8, ymin = -Inf, ymax = Inf), fill = "purple", alpha = 0.003)
-bplot
-bplot <- ggplot(dataplot,aes(angle,length,color=Regime))+geom_point(size=3)+scale_x_discrete(name="",limit=symb)#
-#
-bplot
-sig.lisamkv(cbind(t0,t1),w1queen)
-data(us48)#
 data <- as.data.frame(us48)#
 w1queen <- nb2listw(poly2nb(us48))#
-ll <- sig.lisamkv(data[,10:90],w1queen)
-ll
-devtools::install_github("amvallone/estdaR")
-devtools::install_github("amvallone/estdaR")
+#
+tau(data[,1],data[,2])
+data[,1]
+tau(data[,10],data[,11])
+data[,10]
+data[,11]
+names(data)
+data$X1969
+tau(data$X1969,data$X1970)
+data$X1979
+data(us48)#
+ data <- as.data.frame(us48)#
+ pci <- data[,10:90]#
+ rpci <- pci/matrix(1,dim(pci))%*%colMeans(pci)#
+ w1queen <- nb2listw(poly2nb(us48)#
+#
+tau(pci[,1],pci[,2])
+tau(pci[,1],pci[,2])
+pci[,1]
+names(pci)
+pci$1969
+pci$X1969
+pci$X1970
+which(pci==2792)
+which(pci==2979)
+data(mexico)
+ls()
+class(mexivo)
+class(mexico)
+names(mexico)
+tau(mexico$X1940,mexico$X1950)
+p<-tau(mexico$X1940,mexico$X1950)
+round(p,6)
+mexico$X1940
+is.complx(p[1])
+is.complex(p[1])
+Re(p[1])
+Re(p)
+Im(p)
+mexico$regime
+mexico$Regime
+mexico$Regime[1]==mexico$Regime
+n <- nrow(mexico)
+n
+w <- matrix(0,n,n)
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}
+w[1,]
+diag(w) <- 0
+library(spdep)
+W <- mat2nb(w,style=B)
+W <- mat2listw(w,style=B)
+W <- mat2listw(w,style="B")
+W
+head(mexico)
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step[tau]#
+	Tau_p <- f.step[pval]#
+	concordant <- f.step[Concordant]#
+	discordant <- f.step[Discordant]#
+	extraX <- f.step[ExtraX]#
+	extraY <- f.step[ExtraY]#
+	res <- int.tau(x,y,W)#
+	out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tay_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}#
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+sp.tau(mexico[,1],mexico[,2],W)
+p
+p[Tau]
+p["Tau"]
+load_all()
+load_all()
+load_all()
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+sp.tau(mexico[,1],mexico[,2],W)
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+sp.tau(mexico[,1],mexico[,2],W)
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	out#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}#
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+sp.tau(mexico[,1],mexico[,2],W)
+sp.tau(mexico[,1],mexico[,2],W)
+int.tau(mexico[,1],mexico[,2],W)
+W$neighbours
+W$neighbours[1]
+x <- mexico[,1]
+y <- mexico[,2]
+x
+y
+tua(x,y)
+tau(x,y)
+system.time(tau(x,y))
+system.time(cor(x,t,method="kendall"))
+system.time(cor(x,y,method="kendall"))
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+iS
+dxdy
+dxdy
+ls()
+n1
+n2
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			cat(i,j)#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		for(j in seq_along(neg)){#
+			cat(i,j,"\n")#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- W$neighbours[i]#
+		print(neg)#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		print(neg)#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		print(neg)#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}
+int.tau(x,y,W)
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		print(neg)#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+dxdy
+dx
+dy
+n1
+n2
+iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			print(neg)#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				print(dxdy)#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+seq_along(neg)
+seq_along(W$neighbours)
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			cat("i",i,"j",j,"\n")#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n <- length(x)#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in 1:n){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}	#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seg_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+#			if(i < j){#
+#				xj <- x[j]#
+#				yj <- y[j]#
+#				dx <- xi - xj#
+#				dy <- yi - yj#
+#				dxdy <- dx * dy#
+#				#
+#				if(dxdy!=0){#
+#					n1 <- n1 + 1#
+#					n2 <- n2 + 1#
+#					if(dxdy > 0){#
+#						gc <- gc + 1#
+#						iS <- iS + 1#
+#					} else {#
+#						iS <- iS - 1#
+#					} #
+#				} else {#
+#					if (dx !=0) n1 <- n1 +1#
+#					if (dy !=0) n2 <- n2 +1#
+#				}#
+			}#
+	}
+for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){#
+			cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+#			if(i < j){#
+#				xj <- x[j]#
+#				yj <- y[j]#
+#				dx <- xi - xj#
+#				dy <- yi - yj#
+#				dxdy <- dx * dy#
+#				#
+#				if(dxdy!=0){#
+#					n1 <- n1 + 1#
+#					n2 <- n2 + 1#
+#					if(dxdy > 0){#
+#						gc <- gc + 1#
+#						iS <- iS + 1#
+#					} else {#
+#						iS <- iS - 1#
+#					} #
+#				} else {#
+#					if (dx !=0) n1 <- n1 +1#
+#					if (dy !=0) n2 <- n2 +1#
+#				}#
+			}#
+	}
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(j in seq_along(neg)){			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+#				if(dxdy!=0){#
+#					n1 <- n1 + 1#
+#					n2 <- n2 + 1#
+#					if(dxdy > 0){#
+#						gc <- gc + 1#
+#						iS <- iS + 1#
+#					} else {#
+#						iS <- iS - 1#
+#					} #
+#				} else {#
+#					if (dx !=0) n1 <- n1 +1#
+#					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+#				if(dxdy!=0){#
+#					n1 <- n1 + 1#
+#					n2 <- n2 + 1#
+#					if(dxdy > 0){#
+#						gc <- gc + 1#
+#						iS <- iS + 1#
+#					} else {#
+#						iS <- iS - 1#
+#					} #
+#				} else {#
+#					if (dx !=0) n1 <- n1 +1#
+#					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+	}
+n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS
+tau_g
+ls()
+rm(list=ls())
+load_all()
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	out#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				cat("i",i,"j",j,"dxdy",dxdy,"\n")#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}#
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+sp.tau(mexico[,1],mexi1co[,2],W)
+load_all()
+load_all()
+a <- sp.tau(mexico[,1],mexico[,2],W)
+a
+round(a,4)
+rbind(a,a)
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	if(!is.null(perm)){#
+		taus <- rep(0,perm)#
+		ids <- seq_along(x)#
+		for (r in 1:perm){#
+			rids <- sample(ids)#
+			taus[r] <- int.tau(x[rids],y[rids],W)#
+		}#
+		above <- taus >= res[1]#
+		larger <- sum(above)#
+		psim <- (larger + 1)/ (perm + 1)#
+		if (psim > 0.5) psim <- (perm + larger +1) / (perm + 1)#
+		out <- c("sp.tau"=res[1],"pval"=psim,"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	} else {#
+		out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	}#
+	out#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}#
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+a <- sp.tau(mexico[,1],mexico[,2],W)
+a <- sp.tau(mexico[,1],mexico[,2],W)
+a <- sp.tau(mexico[,1],mexico[,2],W,99)
+a
+warnings()
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	if(!is.null(perm)){#
+		taus <- rep(0,perm)#
+		ids <- seq_along(x)#
+		for (r in 1:perm){#
+			rids <- sample(ids)#
+			taus[r] <- int.tau(x[rids],y[rids],W)[1]#
+		}#
+		above <- taus >= res[1]#
+		larger <- sum(above)#
+		psim <- (larger + 1)/ (perm + 1)#
+		if (psim > 0.5) psim <- (perm + larger +1) / (perm + 1)#
+		out <- c("sp.tau"=res[1],"pval"=psim,"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	} else {#
+		out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	}#
+	out#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}
+a <- sp.tau(mexico[,1],mexico[,2],W,99)
+a
+sp.tau <- function(x,y,W,perm=NULL){#
+	f.step <- tau(x,y)#
+	Tau <- f.step["Tau"]#
+	Tau_p <- f.step["pval"]#
+	concordant <- f.step["Concordant"]#
+	discordant <- f.step["Discordant"]#
+	extraX <- f.step["ExtraX"]#
+	extraY <- f.step["ExtraY"]#
+	res <- int.tau(x,y,W)#
+	if(!is.null(perm)){#
+		taus <- rep(0,perm)#
+		ids <- seq_along(x)#
+		for (r in 1:perm){#
+			rids <- sample(ids)#
+			taus[r] <- int.tau(x[rids],y[rids],W)[1]#
+		}#
+		above <- taus >= res[1]#
+		larger <- sum(above)#
+		psim <- (larger + 1)/ (perm + 1)#
+		if (psim > 0.5) psim <- (perm - larger +1) / (perm + 1)#
+		out <- c("sp.tau"=res[1],"pval"=psim,"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	} else {#
+		out <- c("sp.tau"=res[1],"sp.Concordant"=res[2],"sp.Discordant"=res[3],f.step)#
+	}#
+	out#
+}#
+#
+int.tau<-function(x,y,W){#
+	n1 <- n2 <- iS <- gc <- 0#
+	for(i in seq_along(W$neighbours)){#
+		neg <- unlist(W$neighbours[i])#
+		xi <- x[i]#
+		yi <- y[i]#
+		for(k in seq_along(neg)){#
+			j <- neg[k]			#
+			if(i < j){#
+				xj <- x[j]#
+				yj <- y[j]#
+				dx <- xi - xj#
+				dy <- yi - yj#
+				dxdy <- dx * dy#
+				if(dxdy!=0){#
+					n1 <- n1 + 1#
+					n2 <- n2 + 1#
+					if(dxdy > 0){#
+						gc <- gc + 1#
+						iS <- iS + 1#
+					} else {#
+						iS <- iS - 1#
+					} #
+				} else {#
+					if (dx !=0) n1 <- n1 +1#
+					if (dy !=0) n2 <- n2 +1#
+				}#
+			}#
+		}#
+	}#
+	tau_g <- iS /(sqrt(n1) * sqrt(n2))#
+	gd <- gc - iS#
+	out <- c("tau_g"=tau_g,"gc"=gc,"gd"=gd)#
+	return(out)#
+}
+a <- sp.tau(mexico[,1],mexico[,2],W,99)
+a
+a <- lapply(1:(nrow(mexico)-1),function(i) sp.tau(mexico[,i],mexico[,i+1],W))
+a <- lapply(1:(nrow(mexico)-1),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W))
+a <- lapply(1:(ncol(mexico)-2),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W))
+b<-do.call(rbind.data.frame,a)
+b
+names(a[[1]])
+colnames(b) <- names(a[[1]])
+b <- round(b,4)
+b
+b <- round(b,3)
+b
+data(mexico)#
+n <- nrow(mexico)#
+w <- matrix(0,n,n)#
+for(i in 1:n){#
+	w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)#
+}#
+diag(w) <- 0#
+W <- mat2listw(w,style="B")#
+a <- sp.tau(mexico[,1],mexico[,2],W)#
+a <- lapply(1:(ncol(mexico)-2),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W,99))#
+b<-do.call(rbind.data.frame,a)#
+colnames(b) <- names(a[[1]])#
+b <- round(b,3)
+b
+a <- lapply(1:(ncol(mexico)-2),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W,999))#
+b<-do.call(rbind.data.frame,a)#
+colnames(b) <- names(a[[1]])#
+b <- round(b,3)
+b
+W <- mat2listw(w,style="B")
+W <- mat2listw(w)
+a <- lapply(1:(ncol(mexico)-2),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W,999))#
+b<-do.call(rbind.data.frame,a)#
+colnames(b) <- names(a[[1]])#
+b <- round(b,3)
+b
+W$S0
+names(W)
+summary(W)
+names(W$weights)
+W$weights
+sum(W$weigths)
+sum(rowSums(W))
+class(W)
+rowSums(W)
+spweights.constants(W)
+spweights.constants(W)$S0
+rm(list=ls())
+load_all()
+#' @rdname sp.tau
+data(mexico)
+n <- nrow(mexico
+)
+w <- matrix(0,n,n)
+for(i in 1:n){
+w[,i] <- 1*(mexico$Regime[i]==mexico$Regime)
+}
+diag(w) <- 0
+W <- mat2listw(w,style="B")
+a <- lapply(1:(ncol(mexico)-2),function(i) sp.tau(mexico[,i],mexico[,(i+1)],W,999))
+b<-do.call(rbind.data.frame,a)
+colnames(b) <- names(a[[1]])
+b <- round(b,3)
+b

@@ -24,7 +24,7 @@ geary(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
 a data frame (more explanation in Details later)
 }
 \description{
-Compute the univariable Anselin(1995) and multivarible Anselin(2017) Geary's C statistic
+Compute the univariable Anselin (1995) and multivarible Anselin (2017) Geary's C statistic
 }
 \details{
 later...

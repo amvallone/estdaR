@@ -7,14 +7,14 @@
 lisamkv(x, W, ...)
 }
 \arguments{
-\item{x}{numerical matrix of n spatial unit and t time periods}
+\item{x}{numerical matrix of n spatial units and t time periods}
 
 \item{W}{an objet of listw class.}
 
 \item{...}{other argument to \code{quad} function. See \code{\link{quad}} for more infomation.}
 }
 \value{
-a list cantaning three object
+a list cantaining three objects
 \describe{
   \item{move}{a data frame indicating which type of LISA transition occurred}
   \item{lisamatrix}{markov LISA transition matrix}
