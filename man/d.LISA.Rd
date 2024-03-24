@@ -4,8 +4,17 @@
 \alias{d.LISA}
 \title{Directional LISA}
 \usage{
-d.LISA(x0, x1, W, Regime = NULL, k = 8, mean.rel = FALSE,
-  nsim = NULL, arrow = TRUE, only = NULL)
+d.LISA(
+  x0,
+  x1,
+  W,
+  Regime = NULL,
+  k = 8,
+  mean.rel = FALSE,
+  nsim = NULL,
+  arrow = TRUE,
+  only = NULL
+)
 }
 \arguments{
 \item{x0}{a vector containing the variable at initial period of analysis}

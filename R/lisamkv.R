@@ -1,4 +1,4 @@
-#' @import rgdal
+
 #'
 #' @name lisamkv
 #' @rdname lisamkv

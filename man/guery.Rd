@@ -4,8 +4,7 @@
 \alias{geary}
 \title{Mutivariable and univariable Geary's C statistic}
 \usage{
-geary(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
-  ...)
+geary(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours), ...)
 }
 \arguments{
 \item{x}{a ventor, matrix or data frame containing the variables and spatial units}

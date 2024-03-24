@@ -4,8 +4,7 @@
 \alias{moran}
 \title{Univariable and Bivariable Local Moran's I}
 \usage{
-moran(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours),
-  ...)
+moran(x, W, nsim = NULL, type = "uni", nbcom = length(W$neighbours), ...)
 }
 \arguments{
 \item{x}{a vector, matrix or data frame containing the variables and spatial units}

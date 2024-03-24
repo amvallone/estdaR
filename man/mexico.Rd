@@ -4,7 +4,9 @@
 \name{mexico}
 \alias{mexico}
 \title{Mexican states regional income 1940-2000}
-\format{A data frame contaning...}
+\format{
+A data frame contaning...
+}
 \source{
 \url{https://github.com/pysal/pysal/tree/master/pysal/examples/mexico}
 }

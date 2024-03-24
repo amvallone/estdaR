@@ -4,10 +4,12 @@
 \name{Guerry}
 \alias{Guerry}
 \title{Data From A.-M. Guerry, "Essay On The Moral Statistics Of France"}
-\format{A Spatial Object conatianing the original Guerry's dataset with two new variables \describe{
+\format{
+A Spatial Object conatianing the original Guerry's dataset with two new variables \describe{
  \item{pc1}{First principal component of Crimes Against Persons, Crimes Against Property, Literacy, Donations, Infants Born out of Wedlock, and Suicides data}
  \item{pc2}{Second principal component of Crimes Against Persons, Crimes Against Property, Literacy, Donations, Infants Born out of Wedlock, and Suicides data}
-}}
+}
+}
 \usage{
 data(Guerry)
 }

@@ -14,9 +14,9 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: rgdal,
+Imports:
     gridExtra,
     RColorBrewer,
-    sp,
+    sf,
     gasfluxes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3

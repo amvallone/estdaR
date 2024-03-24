@@ -1,4 +1,4 @@
-#' @import gridExtra RColorBrewer spdep ggplot2 stats graphics sp
+#' @import gridExtra RColorBrewer spdep ggplot2 stats graphics sf
 #'
 #'
 #' @name d.LISA

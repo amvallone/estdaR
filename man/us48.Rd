@@ -4,7 +4,9 @@
 \name{us48}
 \alias{us48}
 \title{Nominal per capita 48 US states time series 1929-2009}
-\format{an Spatial object}
+\format{
+an Spatial object
+}
 \source{
 \url{https://github.com/pysal/pysal/tree/master/pysal/examples/us_income}
 }
